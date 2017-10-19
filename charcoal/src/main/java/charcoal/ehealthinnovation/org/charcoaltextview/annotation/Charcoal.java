@@ -15,5 +15,8 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 public @interface Charcoal {
+    /**
+     * Asset {@link String} file name of the ucum essence file to load.
+     */
     String asset();
 }

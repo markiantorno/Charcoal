@@ -64,6 +64,14 @@ public class EssenceController {
     }
 
     /**
+     * Clears the currently loaded UCUM data.
+     */
+    public static void clearModel() {
+        mEssenceFileName = null;
+        mUcumService = null;
+    }
+
+    /**
      * Gets the current {@link UcumEssenceService}, or null, if no such service if loaded.
      *
      * @return {@link UcumEssenceService}
@@ -74,6 +82,37 @@ public class EssenceController {
         } else {
             Log.e(TAG, "No UCUM model loaded.");
             return null;
+        }
+    }
+
+    /**
+     * Returns the UCUM code for the given code.
+     *
+     * @param printString {@link String} of unit to get the code for.
+     */
+    private static String getUnitCode(String printString) {
+        if (getUcumService() == null) {
+            Log.e(TAG, "getUnitPrintSymbol -> No UCUMEssenceService could be found. Returning blank unit String...");
+            return "";
+        } else if (getUcumService().getModel().getUnit(printString) == null) {
+            Log.e(TAG, "getUnitPrintSymbol -> .getUnit(" + printString + ") returns null. Returning blank unit String...");
+            return "";
+        } else {
+            return getUcumService().getModel().getUnit(printString).getCode();
+        }
+    }
+
+    /**
+     * Returns the printable symbol for the given code.
+     *
+     * @param unitCode {@link String} code of unit to get the printable String for.
+     */
+    private static String getUnitPrintSymbol(String unitCode) {
+        if (getUcumService() != null) {
+            return getUcumService().getModel().getUnit(unitCode).getPrintSymbol();
+        } else {
+            Log.e(TAG, "getUnitPrintSymbol -> No UCUMEssenceService could be found. Returning blank unit String...");
+            return "";
         }
     }
 }

@@ -15,9 +15,9 @@ import charcoal.ehealthinnovation.org.charcoaltextview.view.CharcoalTextView;
  */
 public class PreferenceController {
 
-    public final static String TAG = PreferenceController.class.getSimpleName();
+    private final static String TAG = PreferenceController.class.getSimpleName();
 
-    private final static String PREF_FILE_KEY = "charcoal.preferences";
+    protected final static String PREF_FILE_KEY = "charcoal.preferences";
 
     /**
      * Get the instance of the shared preferences used for storing property/unit pairs.
@@ -94,10 +94,9 @@ public class PreferenceController {
      * @param ctx {@link Context}
      * @return {@link Boolean#TRUE} if successful.
      */
-    public static boolean clearAllSetUnits(Context ctx) {
+    public static void clearAllSetUnits(Context ctx) {
         SharedPreferences sharedPref = getCharcoalPreferences(ctx);
-        boolean success = sharedPref.edit().clear().commit();
-        return success;
+        sharedPref.edit().clear().apply();
     }
 
     /**

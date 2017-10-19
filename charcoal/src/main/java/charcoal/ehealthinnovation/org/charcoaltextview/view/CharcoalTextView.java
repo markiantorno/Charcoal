@@ -1,7 +1,5 @@
-
 package charcoal.ehealthinnovation.org.charcoaltextview.view;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
@@ -22,23 +20,21 @@ import charcoal.ehealthinnovation.org.charcoaltextview.preferences.EssenceContro
 import charcoal.ehealthinnovation.org.charcoaltextview.preferences.PreferenceController;
 
 /**
+ * Extended {@link android.widget.TextView} used to display {@link Observation} with the correct units.
+ * <p>
  * Created by miantorno on 2017-10-13.
  */
 public class CharcoalTextView extends AppCompatTextView implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private final static String TAG = CharcoalTextView.class.getSimpleName();
 
-    /*
-     * Display formatting...
-     */
+    // Display formatting
     private String mUnitCodeUC;
     private int mAccuracy;
     private String mProperty;
     private String mFormat;
 
-    /*
-     * Observation to display
-     */
+    // Observation to display
     private Observation mCurrentObservation;
 
     // Constructors
@@ -90,7 +86,7 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
     }
 
     /**
-     *
+     * Resets the view. Triggers a recalculation of unit, and conversion type.
      */
     public void relight() {
         if (mCurrentObservation != null) {
@@ -108,34 +104,49 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
         mCurrentObservation = obs;
 
         //Check value of passed in observation
+        Quantity quatityDt = getValueQuantityDt(obs);
+
+        if (quatityDt != null) {
+            if (unitAndValueSet(quatityDt)) {
+                setAndFormatText(quatityDt.getValueElement().getValueAsNumber().doubleValue(),
+                        quatityDt.getUnit());
+            }
+        }
+    }
+
+    /**
+     * Returns the {@link Quantity} for the passed in fhir {@link Observation}, or null, if no
+     * quantity is set.
+     *
+     * @param observation {@link Observation} to extract {@link Quantity} from.
+     * @return {@link Quantity} for given {@link Observation}
+     */
+    protected Quantity getValueQuantityDt(@NonNull Observation observation) {
         Quantity quatityDt = null;
 
         try {
-            quatityDt = obs.getValueQuantity();
+            quatityDt = observation.getValueQuantity();
         } catch (FHIRException e) {
-            e.printStackTrace();
-        }
-        if (quatityDt == null) {
-            throw new IllegalArgumentException("Passed in Observation has no set quatityDt...");
+            Log.e(TAG, "Passed in observation with id: " + observation.getId() + ", has no set quantityDt!");
         }
 
-        //Check unit of passed in observation
-        String unit = quatityDt.getUnit();
+        return quatityDt;
+    }
 
-        if (unit == null) {
-            Log.e(TAG, "Passed in Observation has no set unit...");
-            unit = "";
-        }
-
-        Double value = quatityDt.getValueElement().getValueAsNumber().doubleValue();
-
-        displayValue(value, unit);
+    /**
+     * Checks to see if the given {@link Quantity} has both a set unit and value.
+     *
+     * @param quantity {@link Quantity} to display.
+     * @return {@link Boolean#TRUE} if both are set.
+     */
+    protected boolean unitAndValueSet(Quantity quantity) {
+        return ((quantity.getUnit() != null)
+                && (quantity.getValueElement() != null));
     }
 
     //TODO two methods here, one for getValue dstu2, and one for getValue dstu3
 
-    @SuppressLint("StringFormatMatches")
-    private void displayValue(Double value, String unitString) {
+    private void setAndFormatText(Double value, String unitString) {
 
         Log.d(TAG, "Attempting to display value: " + value + ", with corresponding unit: " + unitString);
 
@@ -161,18 +172,18 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
                             unitForPropety);
 
                     Log.d(TAG, "Adjusted value for new unit -> " + valueConvertedToNewUnit);
-                    displayObservationValue(asPrecisionDecimal(valueConvertedToNewUnit),
+                    displayObservationValue(asPrecisionDecimalString(valueConvertedToNewUnit, getAccuracy()),
                             unitForPropety);
 
                 } catch (UcumException e) {
                     Log.d(TAG, "Defaulting to passed in unit... \n" + e.getMessage());
 
-                    displayObservationValue(asPrecisionDecimal(accuracyAdjustedDecimal), unitString);
+                    displayObservationValue(asPrecisionDecimalString(accuracyAdjustedDecimal, getAccuracy()), unitString);
                 }
 
             } else {
                 Log.d(TAG, "Current unit matches desired unit.");
-                displayObservationValue(accuracyAdjustedDecimal == null ? asPrecisionDecimal(accuracyAdjustedDecimal) : "N/A",
+                displayObservationValue(accuracyAdjustedDecimal == null ? asPrecisionDecimalString(accuracyAdjustedDecimal, getAccuracy()) : "N/A",
                         unitString);
             }
 
@@ -194,39 +205,6 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
             unit = ucumService.getModel().getUnit(unit).getPrintSymbol();
         }
         setText(String.format(getFormat(), value, unit));
-    }
-
-    /**
-     * Returns the UCUM code for the given code.
-     *
-     * @param printString {@link String} of unit to get the code for.
-     */
-    private String getUnitCode(String printString) {
-        UcumEssenceService ucumService = EssenceController.getUcumService();
-        if (ucumService == null) {
-            Log.e(TAG, "getUnitPrintSymbol -> No UCUMEssenceService could be found. Returning blank unit String...");
-            return "";
-        } else if (ucumService.getModel().getUnit(printString) == null) {
-            Log.e(TAG, "getUnitPrintSymbol -> .getUnit(" + printString + ") returns null. Returning blank unit String...");
-            return "";
-        } else {
-            return ucumService.getModel().getUnit(printString).getCode();
-        }
-    }
-
-    /**
-     * Returns the printable symbol for the given code.
-     *
-     * @param unitCode {@link String} code of unit to get the printable String for.
-     */
-    private String getUnitPrintSymbol(String unitCode) {
-        UcumEssenceService ucumService = EssenceController.getUcumService();
-        if (ucumService != null) {
-            return ucumService.getModel().getUnit(unitCode).getPrintSymbol();
-        } else {
-            Log.e(TAG, "getUnitPrintSymbol -> No UCUMEssenceService could be found. Returning blank unit String...");
-            return "";
-        }
     }
 
     /**
@@ -254,7 +232,7 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
      *
      * @return {@link Boolean#TRUE} if view has been initialized properly.
      */
-    private boolean charcoalTextViewInitialized() {
+    protected boolean charcoalTextViewInitialized() {
         return ((mAccuracy >= 0)
                 && (mFormat != null)
                 && (mProperty != null)
@@ -288,9 +266,19 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
      * @param decimal {@link Decimal} to generate {@link String} for.
      * @return The precision correct {@link String}.
      */
-    public String asPrecisionDecimal(Decimal decimal) {
-        String result = decimal.asDecimal();
-        result = result.substring(0, result.indexOf(".") + (getAccuracy() + 1));
-        return result;
+    public static String asPrecisionDecimalString(Decimal decimal, int accuracy) {
+        if ((accuracy < 0) || (!decimal.asDecimal().contains("."))) {
+            Log.e(TAG, "Cannot set accuracy to a negative value, or value with no decimal places." +
+                    " No adjustment done.");
+            return decimal.toString();
+        } else {
+            String result = decimal.asDecimal();
+            int digitsAfterDecimal = ((result.length() - 1) - result.indexOf("."));
+            if (accuracy > digitsAfterDecimal) {
+                accuracy = digitsAfterDecimal;
+            }
+            result = result.substring(0, result.indexOf(".") + (accuracy) + 1);
+            return result;
+        }
     }
 }
