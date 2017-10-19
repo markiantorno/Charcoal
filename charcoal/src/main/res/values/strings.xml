@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">CharcoalTextView</string>
+    <string name="value_format">%1$s%2$s</string>
+</resources>

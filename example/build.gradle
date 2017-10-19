@@ -1,0 +1,74 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
+    defaultConfig {
+        applicationId "charcoal.ehealthinnovation.org.annotationtestproject"
+        minSdkVersion 18
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
+
+        multiDexEnabled = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+    lintOptions {
+        abortOnError false
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/ASL2.0'
+
+        exclude 'ChangeLog.wiki'
+        exclude 'LICENSE'
+        exclude 'NOTICE.txt'
+        exclude 'NOTICE'
+        exclude 'LICENSE'
+        exclude 'ASL2.0'
+        exclude 'changelog.xml'
+
+        exclude 'META-INF/services/com.phloc.commons.thirdparty.IThirdPartyModuleProviderSPI'
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    compile project(':charcoal')
+
+//    compile files('libs/processor.jar')
+//    compile 'com.squareup:javapoet:1.9.0'
+//    compile 'org.fhir:ucum:1.0-SNAPSHOT'
+//    compile 'org.ogce:xpp3:1.1.6'
+}
+
+//task processorTask(type: Exec) {
+//    commandLine 'cp', '../processor/build/libs/processor.jar', 'libs/'
+//}
+//
+//processorTask.dependsOn(':processor:build')
+//preBuild.dependsOn(processorTask)
