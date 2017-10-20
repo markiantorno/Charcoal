@@ -112,7 +112,7 @@ public class CharcoalBinder {
                 try {
                     CharcoalTextView textView = (CharcoalTextView) field.get(target);
                     textView.setProperty(writer.property());
-                    textView.setUnitCodeUC(writer.defaultUnit());
+                    textView.setUnitString(writer.defaultUnit());
                     textView.setAccuracy(writer.accuracy());
                     textView.setFormat(writer.format());
                     textView.relight();

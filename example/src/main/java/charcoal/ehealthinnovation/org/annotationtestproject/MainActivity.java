@@ -18,10 +18,10 @@ import charcoal.ehealthinnovation.org.charcoaltextview.view.CharcoalTextView;
 @Charcoal(asset = "essence.xml")
 public class MainActivity extends AppCompatActivity {
 
-    @CharcoalWriter(property = "blood_glucose", defaultUnit = "[MGDL]")
+    @CharcoalWriter(property = "blood_glucose", defaultUnit = "mg/dL")
     CharcoalTextView mCharcoalViewMGDL;
 
-    @CharcoalWriter(property = "blood_glucose", defaultUnit = "MMOLL")
+    @CharcoalWriter(property = "blood_glucose", defaultUnit = "m[mol]/L")
     CharcoalTextView mCharcoalViewMMOL;
 
     SwitchCompat mSwitch;
@@ -40,18 +40,18 @@ public class MainActivity extends AppCompatActivity {
         mSwitch = findViewById(R.id.pref_switch);
         mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                PreferenceController.setUnitForPropety(getApplicationContext(), "blood_glucose", isChecked ? "[mgdl]" : "mmol/L");
+                PreferenceController.setUnitForPropety(getApplicationContext(), "blood_glucose", isChecked ? "mg/dL" : "m[mol]/L");
             }
         });
 
-        PreferenceController.setUnitForPropety(this,"blood_glucose", "mmol/L");
+        PreferenceController.setUnitForPropety(this,"blood_glucose", "m[mol]/L");
 
         CharcoalBinder.burn(this);
     }
 
     public Observation generateBloodGlucoseReadingMmol() {
-        Quantity quantity = new Quantity().setUnit("mmol/l")
-                .setValue(4.7);
+        Quantity quantity = new Quantity().setUnit("m[mol]/l")
+                .setValue(3.9);
 
         Observation observation = new Observation()
                 .setValue(quantity);
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public Observation generateBloodGlucoseReadingMgdl() {
-        Quantity quantity = new Quantity().setUnit("[mgdl]")
+        Quantity quantity = new Quantity().setUnit("mg/dL")
                 .setValue(70);
 
         Observation observation = new Observation()

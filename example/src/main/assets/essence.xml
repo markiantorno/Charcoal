@@ -2060,11 +2060,11 @@
         <value value="1099511627776">1099511627776</value>
     </prefix>
 
-    <unit xmlns="" Code="[mgdl]" CODE="[MGDL]" isMetric="yes" class="glucose concentration">
-        <name>grams per decilitre</name>
-        <printSymbol>mg/dL</printSymbol>
-        <property>blood_glucose</property>
-        <value Unit="mmol/l" UNIT="MMOL/L" value="18">18</value>
+    <unit xmlns="" Code="[mol]" CODE="[MOL]" isMetric="yes" class="clinical">
+        <name>mol of glucose</name>
+        <printSymbol>mol</printSymbol>
+        <property>glucose</property>
+        <value Unit="g" UNIT="G" value="180.18">180.18"</value>
     </unit>
 
 </root>

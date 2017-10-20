@@ -14,11 +14,6 @@ import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
-import charcoal.ehealthinnovation.org.charcoaltextview.annotation.Charcoal;
-import charcoal.ehealthinnovation.org.charcoaltextview.annotation.CharcoalWriter;
-
-import static org.junit.Assert.*;
-
 /**
  * Created by miantorno on 2017-10-19.
  */
@@ -88,7 +83,7 @@ public class CharcoalTextViewTest {
     @Test
     public void testCharcoalViewInitialized() throws Exception {
         Assert.assertFalse(myTextView.charcoalTextViewInitialized());
-        myTextView.setUnitCodeUC("unit");
+        myTextView.setUnitString("unit");
         Assert.assertFalse(myTextView.charcoalTextViewInitialized());
         myTextView.setProperty("property");
         Assert.assertFalse(myTextView.charcoalTextViewInitialized());

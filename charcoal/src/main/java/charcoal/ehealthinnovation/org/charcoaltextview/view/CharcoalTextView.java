@@ -29,7 +29,7 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
     private final static String TAG = CharcoalTextView.class.getSimpleName();
 
     // Display formatting
-    private String mUnitCodeUC;
+    private String mUnitString;
     private int mAccuracy;
     private String mProperty;
     private String mFormat;
@@ -53,12 +53,12 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
 
     // Getters and Setters
 
-    public String getUnitCodeUC() {
-        return mUnitCodeUC;
+    public String getUnitString() {
+        return mUnitString;
     }
 
-    public void setUnitCodeUC(String unit) {
-        this.mUnitCodeUC = unit;
+    public void setUnitString(String unit) {
+        this.mUnitString = unit;
     }
 
     public String getProperty() {
@@ -154,9 +154,9 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
 
         if (charcoalTextViewInitialized() && (ucumService != null)) {
 
-            String unitForPropety = PreferenceController.getUnitForPropety(getContext(), getProperty(), getUnitCodeUC());
+            String unitForPropety = PreferenceController.getUnitForPropety(getContext(), getProperty(), getUnitString());
 
-            Log.d(TAG, "Current unit for property: " + getProperty() + " -> " + getUnitCodeUC());
+            Log.d(TAG, "Current unit for property: " + getProperty() + " -> " + getUnitString());
 
             Decimal accuracyAdjustedDecimal = getFormattedDecimal(value, getAccuracy());
 
@@ -172,18 +172,17 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
                             unitForPropety);
 
                     Log.d(TAG, "Adjusted value for new unit -> " + valueConvertedToNewUnit);
-                    displayObservationValue(asPrecisionDecimalString(valueConvertedToNewUnit, getAccuracy()),
-                            unitForPropety);
+                    displayObservationValue(asPrecisionDecimalString(valueConvertedToNewUnit, getAccuracy()), unitForPropety);
 
                 } catch (UcumException e) {
                     Log.d(TAG, "Defaulting to passed in unit... \n" + e.getMessage());
-
                     displayObservationValue(asPrecisionDecimalString(accuracyAdjustedDecimal, getAccuracy()), unitString);
                 }
 
             } else {
                 Log.d(TAG, "Current unit matches desired unit.");
-                displayObservationValue(accuracyAdjustedDecimal == null ? asPrecisionDecimalString(accuracyAdjustedDecimal, getAccuracy()) : "N/A",
+                displayObservationValue(accuracyAdjustedDecimal != null ?
+                                asPrecisionDecimalString(accuracyAdjustedDecimal, getAccuracy()) : "N/A",
                         unitString);
             }
 
@@ -197,10 +196,11 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
      * Displays the passed in value along with given unit, as per the current {@link CharcoalTextView#mFormat}.
      *
      * @param value Measurement value to display, as a {@link String}.
-     * @param unit  {@link String} unit to use with value.
+     * @param unit  UCUM unit {@link String} to use with value.
      */
     private void displayObservationValue(String value, String unit) {
-        setText(String.format(getFormat(), value, unit));
+        UcumEssenceService ucumService = EssenceController.getUcumService();
+        setText(String.format(getFormat(), value, ucumService.getCommonDisplay(unit)));
     }
 
     /**
@@ -232,7 +232,7 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
         return ((mAccuracy >= 0)
                 && (mFormat != null)
                 && (mProperty != null)
-                && (mUnitCodeUC != null));
+                && (mUnitString != null));
     }
 
     @Override
