@@ -5,11 +5,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context="charcoal.ehealthinnovation.org.annotationtestproject.MainActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
     <charcoal.ehealthinnovation.org.charcoaltextview.view.CharcoalTextView
-        android:id="@+id/test_text_view"
+        android:id="@+id/unit_field_mmoll"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:background="@color/colorPrimary"
+        android:layout_margin="16dp"/>
+
+    <charcoal.ehealthinnovation.org.charcoaltextview.view.CharcoalTextView
+        android:id="@+id/unit_field_mgdl"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:background="@color/colorPrimary"
+        android:layout_margin="16dp"/>
+    </LinearLayout>
+
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/pref_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textOff="mmol/L"
+            android:textOn="mg/dL"
+            app:showText="true" />
+    </RelativeLayout>
 
 </LinearLayout>

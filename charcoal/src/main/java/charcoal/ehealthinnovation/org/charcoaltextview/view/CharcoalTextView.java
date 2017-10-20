@@ -200,10 +200,6 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
      * @param unit  {@link String} unit to use with value.
      */
     private void displayObservationValue(String value, String unit) {
-        UcumEssenceService ucumService = EssenceController.getUcumService();
-        if (ucumService != null) {
-            unit = ucumService.getModel().getUnit(unit).getPrintSymbol();
-        }
         setText(String.format(getFormat(), value, unit));
     }
 
