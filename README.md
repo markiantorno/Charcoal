@@ -1,6 +1,6 @@
 ![alt text][logo]
 
-### A better way to write with FHIR.
+### A better way to write with FHIR in Android.
 ---
 
 ## About
