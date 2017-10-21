@@ -71,6 +71,7 @@ So, our field would be set as follows, ```String YOUR_UNIT = "mm[Hg]```.
 5. Fix some of the folder structure and naming to be more intuitive (ie, why is preferences a directory that holds controllers...)
 6. Improve the example application.
 7. Actually write out the UCUM.md readme to be helpful instead of just copy pasting the pharmacy guide.
+8. Dynamic accuracy for different units.
 
 
 License
