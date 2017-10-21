@@ -54,7 +54,7 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
     // Getters and Setters
 
     public String getUnitString() {
-        return mUnitString;
+        return PreferenceController.getUnitForProperty(this.getContext(), getProperty(), mUnitString);
     }
 
     public void setUnitString(String unit) {
@@ -70,7 +70,7 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
     }
 
     public int getAccuracy() {
-        return mAccuracy;
+        return PreferenceController.getAccuracyForUnit(this.getContext(), getUnitString(), mAccuracy);
     }
 
     public void setAccuracy(int accuracy) {
@@ -146,49 +146,44 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
 
     //TODO two methods here, one for getValue dstu2, and one for getValue dstu3
 
-    private void setAndFormatText(Double value, String unitString) {
+    private void setAndFormatText(Double observationValue, String observationUnit) {
 
-        Log.d(TAG, "Attempting to display value: " + value + ", with corresponding unit: " + unitString);
-
+        Log.d(TAG, "Attempting to display value: " + observationValue + ", with corresponding " +
+                "unit: " + observationUnit);
         UcumEssenceService ucumService = EssenceController.getUcumService();
 
-        if (charcoalTextViewInitialized() && (ucumService != null)) {
+        if (charcoalTextViewInitialized()
+                && (ucumService != null)) {
 
-            String unitForPropety = PreferenceController.getUnitForProperty(getContext(), getProperty(), getUnitString());
+            String destinationUnit = getUnitString();
 
-            Log.d(TAG, "Current unit for property: " + getProperty() + " -> " + getUnitString());
-
-            Decimal accuracyAdjustedDecimal = getFormattedDecimal(value, getAccuracy());
-
-            if ((!unitForPropety.equals(unitString)) && (accuracyAdjustedDecimal != null)) {
-
+            if (!observationUnit.equals(destinationUnit)) {
                 Log.d(TAG, "Unit for property does not equal current unit. Need to convert.");
-
                 try {
+                    Log.d(TAG, "Value passed in -> " + observationValue);
+                    Decimal sourceValue = new Decimal(String.valueOf(observationValue));
+                    Decimal convertedValue = ucumService.convert(sourceValue,
+                            observationUnit,
+                            destinationUnit);
 
-                    Log.d(TAG, "Decimal value passed in -> " + accuracyAdjustedDecimal);
-                    Decimal valueConvertedToNewUnit = ucumService.convert(accuracyAdjustedDecimal,
-                            unitString,
-                            unitForPropety);
-
-                    Log.d(TAG, "Adjusted value for new unit -> " + valueConvertedToNewUnit);
-                    displayObservationValue(asPrecisionDecimalString(valueConvertedToNewUnit, getAccuracy()), unitForPropety);
+                    Log.d(TAG, "Adjusted value for new unit -> " + convertedValue);
+                    displayObservationValue(asPrecisionDecimalString(convertedValue, getAccuracy()),
+                            destinationUnit);
 
                 } catch (UcumException e) {
                     Log.d(TAG, "Defaulting to passed in unit... \n" + e.getMessage());
-                    displayObservationValue(asPrecisionDecimalString(accuracyAdjustedDecimal, getAccuracy()), unitString);
+                    displayObservationValue(asPrecisionDecimalString(String.valueOf(observationValue),
+                            getAccuracy()), destinationUnit);
                 }
-
             } else {
                 Log.d(TAG, "Current unit matches desired unit.");
-                displayObservationValue(accuracyAdjustedDecimal != null ?
-                                asPrecisionDecimalString(accuracyAdjustedDecimal, getAccuracy()) : "N/A",
-                        unitString);
+                displayObservationValue(asPrecisionDecimalString(String.valueOf(observationValue),
+                        getAccuracy()), destinationUnit);
             }
 
         } else {
             Log.e(TAG, "CharcoalTextView not initialized. Displaying as plain number...");
-            setText(String.valueOf(value));
+            setText(String.valueOf(observationValue));
         }
     }
 
@@ -263,12 +258,24 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
      * @return The precision correct {@link String}.
      */
     public static String asPrecisionDecimalString(Decimal decimal, int accuracy) {
-        if ((accuracy < 0) || (!decimal.asDecimal().contains("."))) {
+        return asPrecisionDecimalString(decimal.asDecimal(), accuracy);
+    }
+
+    /**
+     * The {@link Decimal#precision} variable doesn't do anything for rendering as far as I can tell.
+     * This method takes the {@link String} representation of Decimal value and provides a printable
+     * {@link String} with correct precision.
+     *
+     * @param decimalString {@link String} representation of Decimal value.
+     * @return The precision correct {@link String}.
+     */
+    protected static String asPrecisionDecimalString(String decimalString, int accuracy) {
+        if ((accuracy < 0) || (!decimalString.contains("."))) {
             Log.e(TAG, "Cannot set accuracy to a negative value, or value with no decimal places." +
                     " No adjustment done.");
-            return decimal.toString();
+            return decimalString;
         } else {
-            String result = decimal.asDecimal();
+            String result = decimalString;
             int digitsAfterDecimal = ((result.length() - 1) - result.indexOf("."));
             if (accuracy > digitsAfterDecimal) {
                 accuracy = digitsAfterDecimal;

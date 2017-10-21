@@ -125,7 +125,7 @@ public class PreferenceController {
      * if no such property entry exists.
      */
     public static int getAccuracyForUnit(@NonNull Context ctx, @NonNull String unit) {
-        return getUnitForProperty(ctx, unit, NO_SUCH_ACCURACY);
+        return getAccuracyForUnit(ctx, unit, NO_SUCH_ACCURACY);
     }
 
     /**
@@ -137,7 +137,7 @@ public class PreferenceController {
      * @return The accuracy for the given {@link String} unit. Will return {@link PreferenceController#NO_SUCH_ACCURACY}
      * if no such property entry exists.
      */
-    public static int getUnitForProperty(@NonNull Context ctx, @NonNull String unit, @NonNull int defaultAccuracy) {
+    public static int getAccuracyForUnit(@NonNull Context ctx, @NonNull String unit, @NonNull int defaultAccuracy) {
         Log.d(TAG, "Getting accuracy for unit " + unit);
 
         SharedPreferences sharedPref = getCharcoalPreferences(ctx);
