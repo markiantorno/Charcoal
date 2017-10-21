@@ -49,7 +49,7 @@ public class PreferenceController {
         if (sharedPref.contains(property)) {
             Log.d(TAG, "Shared preferences contains existing unit for property " + property + ". Overwriting...");
         } else {
-            Log.d(TAG, "No entry for property " + property + "exists. Creating...");
+            Log.d(TAG, "No entry for property " + property + " exists. Creating...");
         }
 
         SharedPreferences.Editor editor = sharedPref.edit();
@@ -84,7 +84,7 @@ public class PreferenceController {
         SharedPreferences sharedPref = getCharcoalPreferences(ctx);
 
         if (!sharedPref.contains(property)) {
-            Log.d(TAG, "No entry for property " + property + "exists. Cannot return value...");
+            Log.d(TAG, "No entry for property " + property + " exists. Cannot return value...");
         }
 
         return sharedPref.getString(property, defaultUnit);
@@ -108,7 +108,7 @@ public class PreferenceController {
         if (sharedPref.contains(unit)) {
             Log.d(TAG, "Shared preferences contains existing accuracy for unit " + unit + ". Overwriting...");
         } else {
-            Log.d(TAG, "No accuracy for unit " + unit + "exists. Creating...");
+            Log.d(TAG, "No accuracy for unit " + unit + " exists. Creating...");
         }
 
         SharedPreferences.Editor editor = sharedPref.edit();
@@ -143,7 +143,7 @@ public class PreferenceController {
         SharedPreferences sharedPref = getCharcoalPreferences(ctx);
 
         if (!sharedPref.contains(unit)) {
-            Log.d(TAG, "No accuracy for unit " + unit + "exists. Cannot return value...");
+            Log.d(TAG, "No accuracy for unit " + unit + " exists. Cannot return value...");
         }
 
         return sharedPref.getInt(unit, defaultAccuracy);

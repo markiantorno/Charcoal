@@ -15,9 +15,11 @@ import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Quantity;
 import org.hl7.fhir.exceptions.FHIRException;
 
+import ca.uhn.fhir.model.dstu2.composite.QuantityDt;
 import charcoal.ehealthinnovation.org.charcoaltextview.annotation.Charcoal;
 import charcoal.ehealthinnovation.org.charcoaltextview.controller.EssenceController;
 import charcoal.ehealthinnovation.org.charcoaltextview.controller.PreferenceController;
+import charcoal.ehealthinnovation.org.charcoaltextview.pojo.ObservationPair;
 
 /**
  * Extended {@link android.widget.TextView} used to display {@link Observation} with the correct units.
@@ -26,16 +28,16 @@ import charcoal.ehealthinnovation.org.charcoaltextview.controller.PreferenceCont
  */
 public class CharcoalTextView extends AppCompatTextView implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private final static String TAG = CharcoalTextView.class.getSimpleName();
+    protected final static String TAG = CharcoalTextView.class.getSimpleName();
 
     // Display formatting
-    private String mUnitString;
-    private int mAccuracy;
-    private String mProperty;
-    private String mFormat;
+    protected String mUnitString;
+    protected int mAccuracy;
+    protected String mProperty;
+    protected String mFormat;
 
     // Observation to display
-    private Observation mCurrentObservation;
+    protected ObservationPair mCurrentObservation;
 
     // Constructors
 
@@ -89,8 +91,8 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
      * Resets the view. Triggers a recalculation of unit, and conversion type.
      */
     public void relight() {
-        if (mCurrentObservation != null) {
-            setObservation(mCurrentObservation);
+        if (mCurrentObservation.isValid()) {
+            setAndFormatText(mCurrentObservation);
         }
     }
 
@@ -100,56 +102,23 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
      * @param obs {@link Observation} to display value of.
      */
     public void setObservation(@NonNull Observation obs) {
-
-        mCurrentObservation = obs;
-
-        //Check value of passed in observation
-        Quantity quatityDt = getValueQuantityDt(obs);
-
-        if (quatityDt != null) {
-            if (unitAndValueSet(quatityDt)) {
-                setAndFormatText(quatityDt.getValueElement().getValueAsNumber().doubleValue(),
-                        quatityDt.getUnit());
-            }
-        }
+        mCurrentObservation = new ObservationPair(obs);
     }
 
     /**
-     * Returns the {@link Quantity} for the passed in fhir {@link Observation}, or null, if no
-     * quantity is set.
+     * Sets the view to display the value of the passed in {@link ca.uhn.fhir.model.dstu2.resource.Observation}.
      *
-     * @param observation {@link Observation} to extract {@link Quantity} from.
-     * @return {@link Quantity} for given {@link Observation}
+     * @param obs {@link ca.uhn.fhir.model.dstu2.resource.Observation} to display value of.
      */
-    protected Quantity getValueQuantityDt(@NonNull Observation observation) {
-        Quantity quatityDt = null;
-
-        try {
-            quatityDt = observation.getValueQuantity();
-        } catch (FHIRException e) {
-            Log.e(TAG, "Passed in observation with id: " + observation.getId() + ", has no set quantityDt!");
-        }
-
-        return quatityDt;
+    public void setObservation(@NonNull ca.uhn.fhir.model.dstu2.resource.Observation obs) {
+        mCurrentObservation = new ObservationPair(obs);
+        relight();
     }
 
-    /**
-     * Checks to see if the given {@link Quantity} has both a set unit and value.
-     *
-     * @param quantity {@link Quantity} to display.
-     * @return {@link Boolean#TRUE} if both are set.
-     */
-    protected boolean unitAndValueSet(Quantity quantity) {
-        return ((quantity.getUnit() != null)
-                && (quantity.getValueElement() != null));
-    }
+    private void setAndFormatText(@NonNull ObservationPair observationPair) {
 
-    //TODO two methods here, one for getValue dstu2, and one for getValue dstu3
-
-    private void setAndFormatText(Double observationValue, String observationUnit) {
-
-        Log.d(TAG, "Attempting to display value: " + observationValue + ", with corresponding " +
-                "unit: " + observationUnit);
+        Log.d(TAG, "Attempting to display value: " + observationPair.getValue() + ", with corresponding " +
+                "unit: " + observationPair.getUnit());
         UcumEssenceService ucumService = EssenceController.getUcumService();
 
         if (charcoalTextViewInitialized()
@@ -157,13 +126,13 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
 
             String destinationUnit = getUnitString();
 
-            if (!observationUnit.equals(destinationUnit)) {
+            if (!observationPair.getUnit().equals(destinationUnit)) {
                 Log.d(TAG, "Unit for property does not equal current unit. Need to convert.");
                 try {
-                    Log.d(TAG, "Value passed in -> " + observationValue);
-                    Decimal sourceValue = new Decimal(String.valueOf(observationValue));
+                    Log.d(TAG, "Value passed in -> " + observationPair.getValue());
+                    Decimal sourceValue = new Decimal(String.valueOf(observationPair.getValue()));
                     Decimal convertedValue = ucumService.convert(sourceValue,
-                            observationUnit,
+                            observationPair.getUnit(),
                             destinationUnit);
 
                     Log.d(TAG, "Adjusted value for new unit -> " + convertedValue);
@@ -172,18 +141,18 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
 
                 } catch (UcumException e) {
                     Log.d(TAG, "Defaulting to passed in unit... \n" + e.getMessage());
-                    displayObservationValue(asPrecisionDecimalString(String.valueOf(observationValue),
+                    displayObservationValue(asPrecisionDecimalString(String.valueOf(observationPair.getValue()),
                             getAccuracy()), destinationUnit);
                 }
             } else {
                 Log.d(TAG, "Current unit matches desired unit.");
-                displayObservationValue(asPrecisionDecimalString(String.valueOf(observationValue),
+                displayObservationValue(asPrecisionDecimalString(String.valueOf(observationPair.getValue()),
                         getAccuracy()), destinationUnit);
             }
 
         } else {
             Log.e(TAG, "CharcoalTextView not initialized. Displaying as plain number...");
-            setText(String.valueOf(observationValue));
+            setText(String.valueOf(observationPair.getValue()));
         }
     }
 
@@ -196,25 +165,6 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
     private void displayObservationValue(String value, String unit) {
         UcumEssenceService ucumService = EssenceController.getUcumService();
         setText(String.format(getFormat(), value, ucumService.getCommonDisplay(unit)));
-    }
-
-    /**
-     * Takes the passed in {@link Double}, and converts to a UCUM type {@link Decimal}, with the
-     * passed int {@param accuracy}.
-     *
-     * @param value    {@link Double} value to display.
-     * @param accuracy The decimal place accuracy of a number is the {@link Integer} number of
-     *                 digits to the right of the decimal point.
-     * @return {@link Decimal} with correct accuracy.
-     */
-    private Decimal getFormattedDecimal(Double value, int accuracy) {
-        Decimal accuracyAdjustedDecimal = null;
-        try {
-            accuracyAdjustedDecimal = new Decimal(value.toString(), accuracy);
-        } catch (UcumException e) {
-            Log.e(TAG, "Error displaying value -> " + value + ", ", e);
-        }
-        return accuracyAdjustedDecimal;
     }
 
     /**

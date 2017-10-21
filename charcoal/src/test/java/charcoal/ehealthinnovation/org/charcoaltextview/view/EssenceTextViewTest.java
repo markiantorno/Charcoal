@@ -20,9 +20,6 @@ import org.robolectric.RobolectricTestRunner;
 @RunWith(RobolectricTestRunner.class)
 public class EssenceTextViewTest {
 
-    private final String MMOLL_UNIT = "mmol/L";
-    private final double MMOLL_MEASURE = 3.7;
-
     private final String WAY_TOO_ACCURATE = "3.14159";
     private final String THAT_IS_BETTTER = "3.14";
     private final String NO_DECIMAL = "314";
@@ -30,46 +27,19 @@ public class EssenceTextViewTest {
     private final int WAY_TOO_MUCH_ACCURACY = 200;
     private final int IMPOSSIBLE_ACCURACY = -2;
 
-    private Observation myDstu3ObsGood;
-    private Observation myDstu3ObsBad;
-
     private Decimal myDecimal;
-
     private Activity myActivity;
-
     private CharcoalTextView myTextView;
 
     @Before
     public void setUp() throws Exception {
         myActivity = Robolectric.setupActivity(Activity.class);
-
-        Quantity goodQuantity = new Quantity().setUnit(MMOLL_UNIT)
-                .setValue(MMOLL_MEASURE);
-        myDstu3ObsGood = new Observation().setValue(goodQuantity);
-
-        Quantity badQuantity = new Quantity().setValue(MMOLL_MEASURE);
-        myDstu3ObsBad = new Observation().setValue(badQuantity);
-
         myDecimal = new Decimal(WAY_TOO_ACCURATE);
-
         myTextView = new CharcoalTextView(myActivity);
     }
 
     @After
     public void tearDown() throws Exception {
-    }
-
-    @Test
-    public void testGetQuantityDSTU3() throws Exception {
-        Quantity valueQuantityDt = myTextView.getValueQuantityDt(myDstu3ObsGood);
-        Assert.assertEquals(MMOLL_UNIT, valueQuantityDt.getUnit());
-        Assert.assertEquals(MMOLL_MEASURE, valueQuantityDt.getValue().doubleValue());
-    }
-
-    @Test
-    public void testUnitAndValueSet() throws Exception {
-        Assert.assertTrue(myTextView.unitAndValueSet(myTextView.getValueQuantityDt(myDstu3ObsGood)));
-        Assert.assertFalse(myTextView.unitAndValueSet(myTextView.getValueQuantityDt(myDstu3ObsBad)));
     }
 
     @Test
