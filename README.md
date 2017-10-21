@@ -60,6 +60,7 @@ So, our field would be set as follows, ```String YOUR_UNIT = "mm[Hg]```.
 #### Changing Preferences
 
 1. When you want to change the default unit for a given property, simply call ```PreferenceController.setUnitForProperty(Context ctx, String property, String unit)```. This will change all CharcoalTextViews assigned the given property to convert and display Observations with the new unit.
+2. You may not want accuracy constant for all units in a field (example, mmol/L needs 2 decimal places, where mg/dL needs none...however, both are measure of blood glucose), so you can set the default accuracy for given units as well by calling ```PreferenceController.setAccuracyForUnit(Context ctx, String unit, int accuracy)```.
 
 ---
 
