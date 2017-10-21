@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -16,25 +15,35 @@
         android:gravity="center"
         android:orientation="vertical">
 
-    <charcoal.ehealthinnovation.org.charcoaltextview.view.CharcoalTextView
-        android:id="@+id/unit_field_mmoll"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:textColor="@android:color/white"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:background="@color/colorPrimary"
-        android:layout_margin="16dp"/>
+        <charcoal.ehealthinnovation.org.charcoaltextview.view.CharcoalTextView
+            android:id="@+id/unit_field_mmoll"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_margin="16dp"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
 
-    <charcoal.ehealthinnovation.org.charcoaltextview.view.CharcoalTextView
-        android:id="@+id/unit_field_mgdl"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:textColor="@android:color/white"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:background="@color/colorPrimary"
-        android:layout_margin="16dp"/>
+        <charcoal.ehealthinnovation.org.charcoaltextview.view.CharcoalTextView
+            android:id="@+id/unit_field_mgdl"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_margin="16dp"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+        <charcoal.ehealthinnovation.org.charcoaltextview.view.CharcoalTextView
+            android:id="@+id/unit_only_field_mgdl"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_margin="16dp"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <RelativeLayout

@@ -23,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
     @Charcoal(property = "blood_glucose", defaultUnit = "m[mol]/L")
     CharcoalTextView mCharcoalViewMMOL;
 
+    @Charcoal(property = "blood_glucose", defaultUnit = "mg/dL", format = "%2$s")
+    CharcoalTextView mUnitOnlyCharcoalViewMMOL;
+
     SwitchCompat mSwitch;
 
     @Override
@@ -35,6 +38,10 @@ public class MainActivity extends AppCompatActivity {
 
         mCharcoalViewMGDL = findViewById(R.id.unit_field_mgdl);
         mCharcoalViewMGDL.setObservation(generateBloodGlucoseReadingMgdl());
+
+        mUnitOnlyCharcoalViewMMOL = findViewById(R.id.unit_only_field_mgdl);
+        //TODO there will eventually be a better way to do this...
+        mUnitOnlyCharcoalViewMMOL.setObservation(generateBloodGlucoseReadingMmol());
 
         mSwitch = findViewById(R.id.pref_switch);
         mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
