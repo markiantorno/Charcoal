@@ -53,9 +53,9 @@ This UcumService is a singleton object that can be accessed at any point using t
 ```
 So, our field would be set as follows, ```String YOUR_UNIT = "mm[Hg]```.
 
-  * ```YOUR_ACCURACY``` is an integer value representing the number of digits to the right of the decimal point we want displayed for this field. Defaults to 2.
+  * ```YOUR_ACCURACY``` *(optional field)* is an integer value representing the number of digits to the right of the decimal point we want displayed for this field. Defaults to 2.
 
-  * ```YOUR_FORMAT``` is the String format for combined observation value and unit together. Defaults to "%1$s %2$s".
+  * ```YOUR_FORMAT``` *(optional field)* is the String format for combined observation value and unit together. Defaults to "%1$s %2$s".
 
 #### Changing Preferences
 
