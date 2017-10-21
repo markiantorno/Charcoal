@@ -21,7 +21,7 @@ Ordinary Android TextViews allow users to set a static string, and require manua
 
 Your app should now have a valid instance of a UcumService, which you use to parse and convert any FHIR type Observation to and from UCUM standard units.
 
-This UcumService is a singleton object that can be accessed at any point using the [EssenceController](src/main/java/charcoal/ehealthinnovation/org/charcoaltextview/preferences/EssenceController.java). For more information on how to work with, or convert units manually using this service, please checkout the [additional information on UCUM](UCUM.md).
+This UcumService is a singleton object that can be accessed at any point using the [EssenceController](src/main/java/charcoal/ehealthinnovation/org/charcoaltextview/controller/EssenceController.java). For more information on how to work with, or convert units manually using this service, please checkout the [additional information on UCUM](UCUM.md).
 
 #### Using the CharcoalTextView
 
