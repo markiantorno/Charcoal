@@ -65,16 +65,16 @@ So, our field would be set as follows, ```String YOUR_UNIT = "mm[Hg]```.
 ---
 
 ### TODOs! (in no particular order)
-1. Stand alone unit and value fields if user wants to separate the text fields to display independantly.
+1. Stand alone unit and value fields if user wants to separate the text fields to display independantly. *This kinda works in a hacky way now, if you pass in a String format with just a first arg, or second arg, you get the desired effect...however, you need to assign a dummy observation to make it work.*
 2. Remove the need to call Charcoal.bind(Context ctx) to set the ```essence.xml``` file. This could probably be done with a preprocessor to set the filename as a variable or something along those lines.
-3. Maven upload.
+3. Maven upload. -> *In progress* following instructions here https://inthecheesefactory.com/blog/how-to-upload-library-to-jcenter-maven-central-as-dependency/en
 4. Add versioning tools to build.gradle file.
 5. ~~Fix some of the folder structure and naming to be more intuitive (ie, why is preferences a directory that holds controllers...)~~
 6. Improve the example application.
 7. Actually write out the UCUM.md readme to be helpful instead of just copy pasting the pharmacy guide.
 8. ~~Dynamic accuracy for different units.~~
-9. remove .idea/ stuff...
-10. dstu2 support
+9. ~~remove .idea/ stuff...~~
+10. ~~dstu2 support~~
 
 License
 -------
