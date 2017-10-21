@@ -1,4 +1,4 @@
-package charcoal.ehealthinnovation.org.charcoaltextview.preferences;
+package charcoal.ehealthinnovation.org.charcoaltextview.controller;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -18,6 +18,8 @@ public class PreferenceController {
     private final static String TAG = PreferenceController.class.getSimpleName();
 
     protected final static String PREF_FILE_KEY = "charcoal.preferences";
+
+    public final static int NO_SUCH_ACCURACY = -1;
 
     /**
      * Get the instance of the shared preferences used for storing property/unit pairs.
@@ -39,7 +41,7 @@ public class PreferenceController {
      * @param property {@link String} property to set default display unit for.
      * @param unit     {@linkl String} unit to us to display readings of the given property type.
      */
-    public static void setUnitForPropety(@NonNull Context ctx, @NonNull String property, @NonNull String unit) {
+    public static void setUnitForProperty(@NonNull Context ctx, @NonNull String property, @NonNull String unit) {
         Log.d(TAG, "Setting unit " + unit + " for property " + property);
 
         SharedPreferences sharedPref = getCharcoalPreferences(ctx);
@@ -63,8 +65,8 @@ public class PreferenceController {
      * @return The given {@link String} unit to use for the given property. Will return an empty
      * {@link String} if no such property entry exists.
      */
-    public static String getUnitForPropety(@NonNull Context ctx, @NonNull String property) {
-        return getUnitForPropety(ctx, property, "");
+    public static String getUnitForProperty(@NonNull Context ctx, @NonNull String property) {
+        return getUnitForProperty(ctx, property, "");
     }
 
     /**
@@ -76,7 +78,7 @@ public class PreferenceController {
      * @return The given {@link String} unit to use for the given property. Will return {@param defaultUnit}
      * if no such property entry exists.
      */
-    public static String getUnitForPropety(@NonNull Context ctx, @NonNull String property, @NonNull String defaultUnit) {
+    public static String getUnitForProperty(@NonNull Context ctx, @NonNull String property, @NonNull String defaultUnit) {
         Log.d(TAG, "Getting unit for property " + property);
 
         SharedPreferences sharedPref = getCharcoalPreferences(ctx);
@@ -89,19 +91,78 @@ public class PreferenceController {
     }
 
     /**
+     * Sets the {@link Integer} decimal place accuracy for the given unit.
+     * <p>
+     * Example: setAccuracyForUnit(myContext, "mmol/L", 3);
+     * </p>
+     *
+     * @param ctx      {@link Context}
+     * @param unit     {@link String} unit to set default accuracy for.
+     * @param accuracy {@link Integer} The decimal place accuracy of a number is the number of digits to the right of the decimal point.
+     */
+    public static void setAccuracyForUnit(@NonNull Context ctx, @NonNull String unit, @NonNull int accuracy) {
+        Log.d(TAG, "Setting accuracy " + accuracy + " for unit " + unit);
+
+        SharedPreferences sharedPref = getCharcoalPreferences(ctx);
+
+        if (sharedPref.contains(unit)) {
+            Log.d(TAG, "Shared preferences contains existing accuracy for unit " + unit + ". Overwriting...");
+        } else {
+            Log.d(TAG, "No accuracy for unit " + unit + "exists. Creating...");
+        }
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt(unit, accuracy);
+        editor.apply();
+    }
+
+    /**
+     * Fetches the set {@link Integer} decimal place accuracy for the given {@link String} unit.
+     *
+     * @param ctx      {@link Context}
+     * @param unit     {@link String} unit to get accuracy for.
+     * @return The accuracy for the given {@link String} unit. Will return {@link PreferenceController#NO_SUCH_ACCURACY}
+     * if no such property entry exists.
+     */
+    public static int getAccuracyForUnit(@NonNull Context ctx, @NonNull String unit) {
+        return getUnitForProperty(ctx, unit, NO_SUCH_ACCURACY);
+    }
+
+    /**
+     * Fetches the set {@link Integer} decimal place accuracy for the given {@link String} unit.
+     *
+     * @param ctx      {@link Context}
+     * @param unit     {@link String} unit to get accuracy for.
+     * @param defaultAccuracy Default {@link String} unit to return if no such property entry exists.
+     * @return The accuracy for the given {@link String} unit. Will return {@link PreferenceController#NO_SUCH_ACCURACY}
+     * if no such property entry exists.
+     */
+    public static int getUnitForProperty(@NonNull Context ctx, @NonNull String unit, @NonNull int defaultAccuracy) {
+        Log.d(TAG, "Getting accuracy for unit " + unit);
+
+        SharedPreferences sharedPref = getCharcoalPreferences(ctx);
+
+        if (!sharedPref.contains(unit)) {
+            Log.d(TAG, "No accuracy for unit " + unit + "exists. Cannot return value...");
+        }
+
+        return sharedPref.getInt(unit, defaultAccuracy);
+    }
+
+    /**
      * Clears all set unit preferences from storage.
      *
      * @param ctx {@link Context}
      * @return {@link Boolean#TRUE} if successful.
      */
-    public static void clearAllSetUnits(Context ctx) {
+    public static void clearAllPreferences(Context ctx) {
         SharedPreferences sharedPref = getCharcoalPreferences(ctx);
         sharedPref.edit().clear().apply();
     }
 
     /**
      * Registers a {@link android.content.SharedPreferences.OnSharedPreferenceChangeListener} to the
-     * Charcoal {@link SharedPreferences}.
+     * Essence {@link SharedPreferences}.
      *
      * @param ctx      {@link Context}
      * @param listener {@link android.content.SharedPreferences.OnSharedPreferenceChangeListener}
@@ -116,7 +177,7 @@ public class PreferenceController {
 
     /**
      * Unregisters a {@link android.content.SharedPreferences.OnSharedPreferenceChangeListener} from the
-     * Charcoal {@link SharedPreferences}.
+     * Essence {@link SharedPreferences}.
      *
      * @param ctx      {@link Context}
      * @param listener {@link android.content.SharedPreferences.OnSharedPreferenceChangeListener}

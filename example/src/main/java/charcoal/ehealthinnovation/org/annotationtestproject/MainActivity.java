@@ -4,24 +4,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
 import android.widget.CompoundButton;
-import android.widget.Switch;
 
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Quantity;
 
 import charcoal.ehealthinnovation.org.charcoaltextview.CharcoalBinder;
+import charcoal.ehealthinnovation.org.charcoaltextview.annotation.Essence;
 import charcoal.ehealthinnovation.org.charcoaltextview.annotation.Charcoal;
-import charcoal.ehealthinnovation.org.charcoaltextview.annotation.CharcoalWriter;
-import charcoal.ehealthinnovation.org.charcoaltextview.preferences.PreferenceController;
+import charcoal.ehealthinnovation.org.charcoaltextview.controller.PreferenceController;
 import charcoal.ehealthinnovation.org.charcoaltextview.view.CharcoalTextView;
 
-@Charcoal(asset = "essence.xml")
+@Essence(asset = "essence.xml")
 public class MainActivity extends AppCompatActivity {
 
-    @CharcoalWriter(property = "blood_glucose", defaultUnit = "mg/dL")
+    @Charcoal(property = "blood_glucose", defaultUnit = "mg/dL")
     CharcoalTextView mCharcoalViewMGDL;
 
-    @CharcoalWriter(property = "blood_glucose", defaultUnit = "m[mol]/L")
+    @Charcoal(property = "blood_glucose", defaultUnit = "m[mol]/L")
     CharcoalTextView mCharcoalViewMMOL;
 
     SwitchCompat mSwitch;
@@ -40,11 +39,11 @@ public class MainActivity extends AppCompatActivity {
         mSwitch = findViewById(R.id.pref_switch);
         mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                PreferenceController.setUnitForPropety(getApplicationContext(), "blood_glucose", isChecked ? "mg/dL" : "m[mol]/L");
+                PreferenceController.setUnitForProperty(getApplicationContext(), "blood_glucose", isChecked ? "mg/dL" : "m[mol]/L");
             }
         });
 
-        PreferenceController.setUnitForPropety(this,"blood_glucose", "m[mol]/L");
+        PreferenceController.setUnitForProperty(this,"blood_glucose", "m[mol]/L");
 
         CharcoalBinder.burn(this);
     }

@@ -15,9 +15,9 @@ import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Quantity;
 import org.hl7.fhir.exceptions.FHIRException;
 
-import charcoal.ehealthinnovation.org.charcoaltextview.annotation.CharcoalWriter;
-import charcoal.ehealthinnovation.org.charcoaltextview.preferences.EssenceController;
-import charcoal.ehealthinnovation.org.charcoaltextview.preferences.PreferenceController;
+import charcoal.ehealthinnovation.org.charcoaltextview.annotation.Charcoal;
+import charcoal.ehealthinnovation.org.charcoaltextview.controller.EssenceController;
+import charcoal.ehealthinnovation.org.charcoaltextview.controller.PreferenceController;
 
 /**
  * Extended {@link android.widget.TextView} used to display {@link Observation} with the correct units.
@@ -154,7 +154,7 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
 
         if (charcoalTextViewInitialized() && (ucumService != null)) {
 
-            String unitForPropety = PreferenceController.getUnitForPropety(getContext(), getProperty(), getUnitString());
+            String unitForPropety = PreferenceController.getUnitForProperty(getContext(), getProperty(), getUnitString());
 
             Log.d(TAG, "Current unit for property: " + getProperty() + " -> " + getUnitString());
 
@@ -223,7 +223,7 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
     }
 
     /**
-     * For proper display of {@link Observation} values, all {@link CharcoalWriter} annotation values
+     * For proper display of {@link Observation} values, all {@link Charcoal} annotation values
      * must be initialized.
      *
      * @return {@link Boolean#TRUE} if view has been initialized properly.
@@ -237,7 +237,7 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals(mProperty)) {
+        if (key.equals(getProperty()) || key.equals(mUnitString)) {
             Log.d(TAG, "Property change triggered for property: " + key);
             relight();
         }

@@ -1,4 +1,4 @@
-package charcoal.ehealthinnovation.org.charcoaltextview.preferences;
+package charcoal.ehealthinnovation.org.charcoaltextview.controller;
 
 import android.app.Activity;
 
@@ -8,8 +8,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by miantorno on 2017-10-19.

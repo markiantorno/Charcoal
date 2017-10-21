@@ -1,4 +1,4 @@
-package charcoal.ehealthinnovation.org.charcoaltextview.preferences;
+package charcoal.ehealthinnovation.org.charcoaltextview.controller;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

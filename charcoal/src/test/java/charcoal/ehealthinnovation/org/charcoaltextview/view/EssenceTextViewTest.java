@@ -18,7 +18,7 @@ import org.robolectric.RobolectricTestRunner;
  * Created by miantorno on 2017-10-19.
  */
 @RunWith(RobolectricTestRunner.class)
-public class CharcoalTextViewTest {
+public class EssenceTextViewTest {
 
     private final String MMOLL_UNIT = "mmol/L";
     private final double MMOLL_MEASURE = 3.7;

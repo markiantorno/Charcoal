@@ -8,13 +8,13 @@ import android.view.View;
 
 import java.lang.reflect.Field;
 
+import charcoal.ehealthinnovation.org.charcoaltextview.annotation.Essence;
 import charcoal.ehealthinnovation.org.charcoaltextview.annotation.Charcoal;
-import charcoal.ehealthinnovation.org.charcoaltextview.annotation.CharcoalWriter;
-import charcoal.ehealthinnovation.org.charcoaltextview.preferences.EssenceController;
+import charcoal.ehealthinnovation.org.charcoaltextview.controller.EssenceController;
 import charcoal.ehealthinnovation.org.charcoaltextview.view.CharcoalTextView;
 
 /**
- * This class processes the values set in the annotaions {@link Charcoal} and {@link CharcoalWriter}.
+ * This class processes the values set in the annotaions {@link Essence} and {@link Charcoal}.
  * <p>
  * Created by miantorno on 2017-10-16.
  */
@@ -23,7 +23,7 @@ public class CharcoalBinder {
     public static final String TAG = CharcoalBinder.class.getSimpleName();
 
     /**
-     * Initializes defaults for all {@link Charcoal} and {@link CharcoalWriter} annotations.
+     * Initializes defaults for all {@link Essence} and {@link Charcoal} annotations.
      *
      * @param target Target activity for view binding.
      */
@@ -33,7 +33,7 @@ public class CharcoalBinder {
     }
 
     /**
-     * Initializes defaults for all {@link Charcoal} and {@link CharcoalWriter} annotations.
+     * Initializes defaults for all {@link Essence} and {@link Charcoal} annotations.
      *
      * @param target Target view for view binding.
      */
@@ -42,7 +42,7 @@ public class CharcoalBinder {
     }
 
     /**
-     * Initializes defaults for all {@link Charcoal} and {@link CharcoalWriter} annotations.
+     * Initializes defaults for all {@link Essence} and {@link Charcoal} annotations.
      *
      * @param target Target dialog for view binding.
      */
@@ -51,12 +51,12 @@ public class CharcoalBinder {
         if (sourceView != null) {
             process(target, sourceView);
         } else {
-            Log.e(TAG, "Charcoal cannot bind, null source view returned from getDecorView()");
+            Log.e(TAG, "Essence cannot bind, null source view returned from getDecorView()");
         }
     }
 
     /**
-     * Initializes defaults for all {@link Charcoal} and {@link CharcoalWriter} annotations.
+     * Initializes defaults for all {@link Essence} and {@link Charcoal} annotations.
      *
      * @param target Target class for view binding.
      * @param source Activity on which IDs will be looked up.
@@ -67,7 +67,7 @@ public class CharcoalBinder {
     }
 
     /**
-     * Initializes defaults for all {@link Charcoal} and {@link CharcoalWriter} annotations.
+     * Initializes defaults for all {@link Essence} and {@link Charcoal} annotations.
      *
      * @param target Target class for view binding.
      * @param source View root on which IDs will be looked up.
@@ -77,7 +77,7 @@ public class CharcoalBinder {
     }
 
     /**
-     * Initializes defaults for all {@link Charcoal} and {@link CharcoalWriter} annotations.
+     * Initializes defaults for all {@link Essence} and {@link Charcoal} annotations.
      *
      * @param target Target class for view binding.
      * @param source Dialog on which IDs will be looked up.
@@ -89,14 +89,14 @@ public class CharcoalBinder {
 
     /**
      * Internal class method for detecting, and parsing the arguments passed in through the
-     * {@link Charcoal} and {@link CharcoalWriter} annotations.
+     * {@link Essence} and {@link Charcoal} annotations.
      *
      * @param target Target class for view binding.
      * @param source Dialog on which IDs will be looked up.
      */
     private static void process(@NonNull Object target, @NonNull View source) {
 
-        Charcoal classAnnotation = target.getClass().getAnnotation(Charcoal.class);
+        Essence classAnnotation = target.getClass().getAnnotation(Essence.class);
 
         if (classAnnotation != null) {
             String assetFileName = classAnnotation.asset();
@@ -107,7 +107,7 @@ public class CharcoalBinder {
         Field[] fields = target.getClass().getDeclaredFields();
 
         for (Field field : fields) {
-            CharcoalWriter writer = field.getAnnotation(CharcoalWriter.class);
+            Charcoal writer = field.getAnnotation(Charcoal.class);
             if ((writer != null) && (field.getType().isAssignableFrom(CharcoalTextView.class))) {
                 try {
                     CharcoalTextView textView = (CharcoalTextView) field.get(target);
