@@ -15,7 +15,7 @@ Ordinary Android TextViews allow users to set a static string, and require manua
 
 1. Get, or create the UCUM essence.xml you will be using for this project. If you are new to UCUM, click [here](UCUM.md). Our example file is located [here](example/src/main/assets/essence.xml). Once you have the file, place it in your project's asset folder.
 
-2. Add the annotation ```@Charcoal(asset = YOUR_ESSENCE_FILE_NAME.xml)``` to the main application or activity class for your project.
+2. Add the annotation ```@Essence(asset = YOUR_ESSENCE_FILE_NAME.xml)``` to the main application or activity class for your project.
 
 3. Call ```Charcoal.bind(this);```
 
@@ -28,7 +28,7 @@ This UcumService is a singleton object that can be accessed at any point using t
 1. Change the Android ```TextView``` in your layout.xml file, to instead be a ```CharcoalTextView```.
 2. In your java Activity/Fragment/Dialog/etc... class, add the following annotation above the field:
 
-```@CharcoalWriter(property = YOUR_PROPERTY, defaultUnit = YOUR_UNIT, accuracy = YOUR_ACCURACY, format = YOUR_FORMAT)```
+```@Charcoal(property = YOUR_PROPERTY, defaultUnit = YOUR_UNIT, accuracy = YOUR_ACCURACY, format = YOUR_FORMAT)```
 
   * ```YOUR_PROPERTY``` is a String that indicates the medical property that this measurement represents, ie 'blood_glucose', 'weight', etc. These codes are internal to your own application, and have no relation to UCUM fields or unit properties. They are used to associate unit changes and updates to a subset of all the CharcoalTextViews in your app. So if you want to only change the mass unit for weight measurements in your application, you would give only those weight views the same property ```String YOUR_PROPERTY = "weight_reading"```.
      
