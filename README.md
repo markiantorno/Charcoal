@@ -68,10 +68,10 @@ So, our field would be set as follows, ```String YOUR_UNIT = "mm[Hg]```.
 2. Remove the need to call Charcoal.bind(Context ctx) to set the ```essence.xml``` file. This could probably be done with a preprocessor to set the filename as a variable or something along those lines.
 3. Maven upload.
 4. Add versioning tools to build.gradle file.
-5. Fix some of the folder structure and naming to be more intuitive (ie, why is preferences a directory that holds controllers...)
+5. ~~Fix some of the folder structure and naming to be more intuitive (ie, why is preferences a directory that holds controllers...)~~
 6. Improve the example application.
 7. Actually write out the UCUM.md readme to be helpful instead of just copy pasting the pharmacy guide.
-8. Dynamic accuracy for different units.
+8. ~~Dynamic accuracy for different units.~~
 
 
 License
