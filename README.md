@@ -1,6 +1,6 @@
 ![alt text][logo]
 
-### A better way to write with FHIR.
+### A better way to write with FHIR in Android.
 ---
 
 ## About
@@ -21,7 +21,7 @@ Ordinary Android TextViews allow users to set a static string, and require manua
 
 Your app should now have a valid instance of a UcumService, which you use to parse and convert any FHIR type Observation to and from UCUM standard units.
 
-This UcumService is a singleton object that can be accessed at any point using the [EssenceController](src/main/java/charcoal/ehealthinnovation/org/charcoaltextview/preferences/EssenceController.java). For more information on how to work with, or convert units manually using this service, please checkout the [additional information on UCUM](UCUM.md).
+This UcumService is a singleton object that can be accessed at any point using the [EssenceController](charcoal/src/main/java/charcoal/ehealthinnovation/org/charcoaltextview/controller/EssenceController.java). For more information on how to work with, or convert units manually using this service, please checkout the [additional information on UCUM](UCUM.md).
 
 #### Using the CharcoalTextView
 
@@ -53,13 +53,14 @@ This UcumService is a singleton object that can be accessed at any point using t
 ```
 So, our field would be set as follows, ```String YOUR_UNIT = "mm[Hg]```.
 
-  * ```YOUR_ACCURACY``` is an integer value representing the number of digits to the right of the decimal point we want displayed for this field. Defaults to 2.
-
-  * ```YOUR_FORMAT``` is the String format for combined observation value and unit together. Defaults to "%1$s %2$s".
+  * ```YOUR_ACCURACY``` (optional field) is an integer value representing the number of digits to the right of the decimal point we want displayed for this field. Defaults to 2.
+  
+  * ```YOUR_FORMAT``` (optional field) is the String format for combined observation value and unit together. Defaults to "%1$s %2$s".
 
 #### Changing Preferences
 
 1. When you want to change the default unit for a given property, simply call ```PreferenceController.setUnitForProperty(Context ctx, String property, String unit)```. This will change all CharcoalTextViews assigned the given property to convert and display Observations with the new unit.
+2. You may not want accuracy constant for all units in a field (example, mmol/L needs 2 decimal places, where mg/dL needs none...however, both are measure of blood glucose), so you can set the default accuracy for given units as well by calling ```PreferenceController.setAccuracyForUnit(Context ctx, String unit, int accuracy)```.
 
 ---
 
@@ -72,7 +73,8 @@ So, our field would be set as follows, ```String YOUR_UNIT = "mm[Hg]```.
 6. Improve the example application.
 7. Actually write out the UCUM.md readme to be helpful instead of just copy pasting the pharmacy guide.
 8. ~~Dynamic accuracy for different units.~~
-
+9. remove .idea/ stuff...
+10. dstu2 support
 
 License
 -------
