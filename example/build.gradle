@@ -59,6 +59,8 @@ dependencies {
     })
 
     compile project(':charcoal')
+    implementation 'ca.uhn.hapi.fhir:hapi-fhir-structures-dstu3:3.1.0-SNAPSHOT'
+    implementation 'ca.uhn.hapi.fhir:hapi-fhir-structures-dstu2:3.1.0-SNAPSHOT'
 
 //    compile files('libs/processor.jar')
 //    compile 'com.squareup:javapoet:1.9.0'

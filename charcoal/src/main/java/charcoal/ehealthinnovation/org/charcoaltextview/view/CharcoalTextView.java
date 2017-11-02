@@ -101,7 +101,7 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
      *
      * @param obs {@link Observation} to display value of.
      */
-    public void setObservation(@NonNull Observation obs) {
+    public void setObservationDSTU3(@NonNull Observation obs) {
         mCurrentObservation = new ObservationPair(obs);
     }
 
@@ -110,7 +110,7 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
      *
      * @param obs {@link ca.uhn.fhir.model.dstu2.resource.Observation} to display value of.
      */
-    public void setObservation(@NonNull ca.uhn.fhir.model.dstu2.resource.Observation obs) {
+    public void setObservationDSTU2(@NonNull ca.uhn.fhir.model.dstu2.resource.Observation obs) {
         mCurrentObservation = new ObservationPair(obs);
         relight();
     }

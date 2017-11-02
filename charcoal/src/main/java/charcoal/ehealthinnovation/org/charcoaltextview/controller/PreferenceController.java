@@ -39,7 +39,7 @@ public class PreferenceController {
      *
      * @param ctx      {@link Context}
      * @param property {@link String} property to set default display unit for.
-     * @param unit     {@linkl String} unit to us to display readings of the given property type.
+     * @param unit     {@link String} unit to us to display readings of the given property type.
      */
     public static void setUnitForProperty(@NonNull Context ctx, @NonNull String property, @NonNull String unit) {
         Log.d(TAG, "Setting unit " + unit + " for property " + property);
@@ -88,6 +88,18 @@ public class PreferenceController {
         }
 
         return sharedPref.getString(property, defaultUnit);
+    }
+
+    /**
+     * Returns true if a unit has already been set in the preferences for the given property.
+     * @param ctx         {@link Context}
+     * @param property    Data property to fetch unit for. (Ex: blood_glucose, heart_rate...)
+     * @return {@link Boolean#TRUE}, if a unit has already been set for the given property.
+     */
+    public static boolean unitSetForProperty(@NonNull Context ctx, @NonNull String property) {
+        Log.d(TAG, "Checking if unit set for property " + property);
+        SharedPreferences sharedPref = getCharcoalPreferences(ctx);
+        return sharedPref.contains(property);
     }
 
     /**
@@ -150,10 +162,21 @@ public class PreferenceController {
     }
 
     /**
+     * Returns true if an accuracy has already been set in the preferences for the given unit.
+     * @param ctx      {@link Context}
+     * @param unit     {@link String} unit to get accuracy for.
+     * @return {@link Boolean#TRUE}, if a unit has already been set for the given property.
+     */
+    public static boolean accuracySetForUnit(@NonNull Context ctx, @NonNull String unit) {
+        Log.d(TAG, "Checking if unit set for unit " + unit);
+        SharedPreferences sharedPref = getCharcoalPreferences(ctx);
+        return sharedPref.contains(unit);
+    }
+
+    /**
      * Clears all set unit preferences from storage.
      *
      * @param ctx {@link Context}
-     * @return {@link Boolean#TRUE} if successful.
      */
     public static void clearAllPreferences(Context ctx) {
         SharedPreferences sharedPref = getCharcoalPreferences(ctx);

@@ -34,14 +34,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mCharcoalViewMMOL = findViewById(R.id.unit_field_mmoll);
-        mCharcoalViewMMOL.setObservation(generateBloodGlucoseReadingMmol());
+        mCharcoalViewMMOL.setObservationDSTU3(generateBloodGlucoseReadingMmol());
 
         mCharcoalViewMGDL = findViewById(R.id.unit_field_mgdl);
-        mCharcoalViewMGDL.setObservation(generateBloodGlucoseReadingMgdl());
+        mCharcoalViewMGDL.setObservationDSTU3(generateBloodGlucoseReadingMgdl());
 
         mUnitOnlyCharcoalViewMMOL = findViewById(R.id.unit_only_field_mgdl);
         //TODO there will eventually be a better way to do this...
-        mUnitOnlyCharcoalViewMMOL.setObservation(generateBloodGlucoseReadingMmol());
+        mUnitOnlyCharcoalViewMMOL.setObservationDSTU3(generateBloodGlucoseReadingMmol());
 
         mSwitch = findViewById(R.id.pref_switch);
         mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

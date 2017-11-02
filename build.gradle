@@ -12,11 +12,23 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0-beta7'
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath 'com.android.tools.build:gradle:3.0.0'
     }
 }
+
+subprojects {
+    tasks.withType(Javadoc).all {
+        failOnError false
+        source = android.sourceSets.main.java.getSrcDirs()
+    }
+}
+
+//subprojects {
+//    task androidJavadocs(type: Javadoc) {
+//        failOnError false // add this line
+//        source = android.sourceSets.main.java.getSrcDirs()
+//    }
+//}
 
 allprojects {
     repositories {

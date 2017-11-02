@@ -1,5 +1,29 @@
 apply plugin: 'com.android.library'
 
+//ext {
+//    bintrayRepo = 'maven'
+//    bintrayName = 'charcoal'
+//
+//    publishedGroupId = 'com.iantorno.charcoal'
+//    libraryName = 'charcoal'
+//    artifact = 'charcoal'
+//
+//    libraryDescription = 'A better way to write with FHIR in Android.'
+//
+//    siteUrl = 'https://github.com/markiantorno/Charcoal'
+//    gitUrl = 'https://github.com/markiantorno/Charcoal.git'
+//
+//    libraryVersion = '0.0.1'
+//
+//    developerId = 'markiantorno'
+//    developerName = 'Mark Iantorno'
+//    developerEmail = 'markiantorno@gmail.com'
+//
+//    licenseName = 'The Apache Software License, Version 2.0'
+//    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+//    allLicenses = ["Apache-2.0"]
+//}
+
 configurations {
     all*.exclude group: 'org.codehaus.woodstox'
     all*.exclude group: 'org.apache.httpcomponents'
@@ -21,7 +45,7 @@ android {
         minSdkVersion 18
         targetSdkVersion 26
         versionCode 1
-        versionName "1.0"
+        versionName "0.0.1-SNAPSHOT"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         javaCompileOptions.annotationProcessorOptions.includeCompileClasspath = true
@@ -34,11 +58,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-//
-//    compileOptions {
-//        sourceCompatibility JavaVersion.VERSION_1_7
-//        targetCompatibility JavaVersion.VERSION_1_7
-//    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
@@ -66,6 +90,11 @@ android {
     }
 }
 
+//task androidJavadocs(type: Javadoc) {
+//    failOnError false // add this line
+//    source = android.sourceSets.main.java.getSrcDirs()
+//}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:26.1.0'
@@ -76,7 +105,11 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation "org.robolectric:robolectric:3.4.2"
 
-    compile ('ca.uhn.hapi.fhir:hapi-fhir-structures-dstu3:3.1.0-SNAPSHOT')
-    compile 'ca.uhn.hapi.fhir:hapi-fhir-structures-dstu2:3.1.0-SNAPSHOT'
-
+    implementation 'ca.uhn.hapi.fhir:hapi-fhir-structures-dstu3:3.1.0-SNAPSHOT'
+    implementation 'ca.uhn.hapi.fhir:hapi-fhir-structures-dstu2:3.1.0-SNAPSHOT'
+//    implementation 'org.fhir:ucum:1.0-SNAPSHOT'
 }
+
+apply from: './gradle-mvn-push.gradle'
+
+
