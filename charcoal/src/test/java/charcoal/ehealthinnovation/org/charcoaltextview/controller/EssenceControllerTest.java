@@ -50,6 +50,7 @@ public class EssenceControllerTest {
         EssenceController.clearModel();
         Assert.assertNull(EssenceController.getUcumService());
         Assert.assertTrue(EssenceController.shouldLoadModel(FILENAME));
+        EssenceController.clearModel();
     }
 
     @Test
@@ -57,6 +58,7 @@ public class EssenceControllerTest {
         Assert.assertNull(EssenceController.getUcumService());
         EssenceController.setEssenceFile(FILENAME, myActivity);
         Assert.assertNotNull(EssenceController.getUcumService());
+        EssenceController.clearModel();
     }
 
 }

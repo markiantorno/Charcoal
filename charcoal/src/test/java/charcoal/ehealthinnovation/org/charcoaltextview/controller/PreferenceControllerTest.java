@@ -4,9 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import junit.framework.Assert;
-
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -88,5 +87,23 @@ public class PreferenceControllerTest {
         Assert.assertEquals(2, myActivity.getSharedPreferences(PreferenceController.PREF_FILE_KEY, Context.MODE_PRIVATE).getAll().size());
         PreferenceController.clearAllPreferences(myActivity);
         Assert.assertEquals(0, myActivity.getSharedPreferences(PreferenceController.PREF_FILE_KEY, Context.MODE_PRIVATE).getAll().size());
+    }
+
+    @Test
+    public void unitSetForProperty() throws Exception {
+        Assert.assertFalse(PreferenceController.unitSetForProperty(myActivity, GLUCOSE_PROPERTY));
+        SharedPreferences sharedPreferences = myActivity.getSharedPreferences(PreferenceController.PREF_FILE_KEY, Context.MODE_PRIVATE);
+        sharedPreferences.edit().putString(GLUCOSE_PROPERTY, GLUCOSE_UNIT).apply();
+        Assert.assertTrue(PreferenceController.unitSetForProperty(myActivity, GLUCOSE_PROPERTY));
+        sharedPreferences.edit().clear().apply();
+    }
+
+    @Test
+    public void accuracySetForUnit() throws Exception {
+        Assert.assertFalse(PreferenceController.accuracySetForUnit(myActivity, GLUCOSE_UNIT));
+        SharedPreferences sharedPreferences = myActivity.getSharedPreferences(PreferenceController.PREF_FILE_KEY, Context.MODE_PRIVATE);
+        sharedPreferences.edit().putInt(GLUCOSE_UNIT, GLUCOSE_ACCURACY).apply();
+        Assert.assertTrue(PreferenceController.accuracySetForUnit(myActivity, GLUCOSE_UNIT));
+        sharedPreferences.edit().clear().apply();
     }
 }
