@@ -11,6 +11,28 @@ Ordinary Android TextViews allow users to set a static string, and require manua
 
 ## How to Use
 
+#### build.gradle
+
+In your project gradle file, add the following:
+
+```
+allprojects {
+  repositories {
+    ...
+    maven { url 'https://jitpack.io' }
+  }
+}
+```
+
+Then in your local build.gradle, add the following dependency: 
+
+```
+dependencies {
+  ...
+  implementation 'com.github.markiantorno:charcoal:v0.0.1-rc1'
+}
+```
+
 #### Initializing your UCUM units for the project.
 
 1. Get, or create the UCUM essence.xml you will be using for this project. If you are new to UCUM, click [here](UCUM.md). Our example file is located [here](example/src/main/assets/essence.xml). Once you have the file, place it in your project's asset folder.
@@ -67,7 +89,8 @@ So, our field would be set as follows, ```String YOUR_UNIT = "mm[Hg]```.
 ### TODOs! (in no particular order)
 1. Stand alone unit and value fields if user wants to separate the text fields to display independantly. *This kinda works in a hacky way now, if you pass in a String format with just a first arg, or second arg, you get the desired effect...however, you need to assign a dummy observation to make it work.*
 2. Remove the need to call Charcoal.bind(Context ctx) to set the ```essence.xml``` file. This could probably be done with a preprocessor to set the filename as a variable or something along those lines.
-3. Maven upload. -> *In progress* following instructions here https://inthecheesefactory.com/blog/how-to-upload-library-to-jcenter-maven-central-as-dependency/en
+3. ~Maven upload. -> *In progress* following instructions here https://inthecheesefactory.com/blog/how-to-upload-library-to-jcenter-maven-central-as-dependency/en~
+* Maven upload hurts me to get working. Using jitpack instead for now.
 4. Add versioning tools to build.gradle file.
 5. ~~Fix some of the folder structure and naming to be more intuitive (ie, why is preferences a directory that holds controllers...)~~
 6. Improve the example application.
