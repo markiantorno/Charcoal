@@ -1,28 +1,6 @@
 apply plugin: 'com.android.library'
 
-//ext {
-//    bintrayRepo = 'maven'
-//    bintrayName = 'charcoal'
-//
-//    publishedGroupId = 'com.iantorno.charcoal'
-//    libraryName = 'charcoal'
-//    artifact = 'charcoal'
-//
-//    libraryDescription = 'A better way to write with FHIR in Android.'
-//
-//    siteUrl = 'https://github.com/markiantorno/Charcoal'
-//    gitUrl = 'https://github.com/markiantorno/Charcoal.git'
-//
-//    libraryVersion = '0.0.1'
-//
-//    developerId = 'markiantorno'
-//    developerName = 'Mark Iantorno'
-//    developerEmail = 'markiantorno@gmail.com'
-//
-//    licenseName = 'The Apache Software License, Version 2.0'
-//    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-//    allLicenses = ["Apache-2.0"]
-//}
+group='com.github.markiantorno.charcoal'
 
 configurations {
     all*.exclude group: 'org.codehaus.woodstox'
@@ -88,12 +66,9 @@ android {
             includeAndroidResources = true
         }
     }
-}
 
-//task androidJavadocs(type: Javadoc) {
-//    failOnError false // add this line
-//    source = android.sourceSets.main.java.getSrcDirs()
-//}
+
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -109,7 +84,4 @@ dependencies {
     implementation 'ca.uhn.hapi.fhir:hapi-fhir-structures-dstu2:3.1.0-SNAPSHOT'
 //    implementation 'org.fhir:ucum:1.0-SNAPSHOT'
 }
-
-apply from: './gradle-mvn-push.gradle'
-
 
