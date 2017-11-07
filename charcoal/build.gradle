@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
 
-group='com.github.markiantorno.charcoal'
+group='com.github.markiantorno'
 
 configurations {
     all*.exclude group: 'org.codehaus.woodstox'
