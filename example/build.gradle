@@ -61,6 +61,6 @@ dependencies {
     implementation 'com.github.markiantorno:charcoal:v0.0.1-rc1'
 //    compile project(':charcoal')
 
-    implementation 'ca.uhn.hapi.fhir:hapi-fhir-structures-dstu3:3.1.0-SNAPSHOT'
-    implementation 'ca.uhn.hapi.fhir:hapi-fhir-structures-dstu2:3.1.0-SNAPSHOT'
+    compileOnly 'ca.uhn.hapi.fhir:hapi-fhir-structures-dstu3:3.1.0-SNAPSHOT'
+    compileOnly 'ca.uhn.hapi.fhir:hapi-fhir-structures-dstu2:3.1.0-SNAPSHOT'
 }
