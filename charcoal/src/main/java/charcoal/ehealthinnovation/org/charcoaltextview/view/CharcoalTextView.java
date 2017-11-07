@@ -91,7 +91,7 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
      * Resets the view. Triggers a recalculation of unit, and conversion type.
      */
     public void relight() {
-        if (mCurrentObservation.isValid()) {
+        if ((mCurrentObservation != null) && (mCurrentObservation.isValid())) {
             setAndFormatText(mCurrentObservation);
         }
     }
@@ -226,11 +226,15 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
             return decimalString;
         } else {
             String result = decimalString;
-            int digitsAfterDecimal = ((result.length() - 1) - result.indexOf("."));
-            if (accuracy > digitsAfterDecimal) {
-                accuracy = digitsAfterDecimal;
+            if (accuracy == 0) {
+                result = result.substring(0, result.indexOf("."));
+            } else {
+                int digitsAfterDecimal = ((result.length() - 1) - result.indexOf("."));
+                if (accuracy > digitsAfterDecimal) {
+                    accuracy = digitsAfterDecimal;
+                }
+                result = result.substring(0, result.indexOf(".") + (accuracy) + 1);
             }
-            result = result.substring(0, result.indexOf(".") + (accuracy) + 1);
             return result;
         }
     }
