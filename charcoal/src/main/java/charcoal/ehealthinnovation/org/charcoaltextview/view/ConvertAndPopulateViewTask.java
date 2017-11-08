@@ -24,13 +24,16 @@ public class ConvertAndPopulateViewTask extends AsyncTask<ObservationPair, Void,
     protected WeakReference<CharcoalTextView> mWeakReference;
     protected String mDesiredUnit;
     protected int mDesiredAccuracy;
+    protected String mFormat;
 
     public ConvertAndPopulateViewTask(@NonNull CharcoalTextView textView,
                                       @NonNull String desiredUnit,
-                                      @NonNull int desiredAccuracy) {
+                                      @NonNull int desiredAccuracy,
+                                      @NonNull String format) {
         mWeakReference = new WeakReference<>(textView);
         mDesiredUnit = desiredUnit;
         mDesiredAccuracy = desiredAccuracy;
+        mFormat = format;
     }
 
     @Override
@@ -69,15 +72,15 @@ public class ConvertAndPopulateViewTask extends AsyncTask<ObservationPair, Void,
             parsedStringValue = String.valueOf(myPair.getValue());
         }
 
-        return parsedStringValue;
+        return String.format(mFormat, parsedStringValue, getHumanReadableUnitString(mDesiredUnit));
     }
 
     @Override
-    protected void onPostExecute(String parsedStringValue) {
-        if (mWeakReference != null && parsedStringValue != null) {
+    protected void onPostExecute(String stringToDisplay) {
+        if (mWeakReference != null && stringToDisplay != null) {
             final CharcoalTextView textView = mWeakReference.get();
             if (textView != null) {
-                textView.displayObservationValue(parsedStringValue, getHumanReadableUnitString(mDesiredUnit));
+                textView.setText(stringToDisplay);
             }
         }
     }
