@@ -44,10 +44,10 @@ public class EssenceTextViewTest {
 
     @Test
     public void testAsPrecisionDecimalString() throws Exception {
-        Assert.assertEquals(NO_DECIMAL, CharcoalTextView.asPrecisionDecimalString(new Decimal(NO_DECIMAL), DESIRED_ACCURACY));
-        Assert.assertEquals(THAT_IS_BETTTER, CharcoalTextView.asPrecisionDecimalString(myDecimal, DESIRED_ACCURACY));
-        Assert.assertEquals(WAY_TOO_ACCURATE, CharcoalTextView.asPrecisionDecimalString(myDecimal, WAY_TOO_MUCH_ACCURACY));
-        Assert.assertEquals(WAY_TOO_ACCURATE, CharcoalTextView.asPrecisionDecimalString(myDecimal, IMPOSSIBLE_ACCURACY));
+        Assert.assertEquals(NO_DECIMAL, ConvertAndPopulateViewTask.asPrecisionDecimalString(new Decimal(NO_DECIMAL), DESIRED_ACCURACY));
+        Assert.assertEquals(THAT_IS_BETTTER, ConvertAndPopulateViewTask.asPrecisionDecimalString(myDecimal, DESIRED_ACCURACY));
+        Assert.assertEquals(WAY_TOO_ACCURATE, ConvertAndPopulateViewTask.asPrecisionDecimalString(myDecimal, WAY_TOO_MUCH_ACCURACY));
+        Assert.assertEquals(WAY_TOO_ACCURATE, ConvertAndPopulateViewTask.asPrecisionDecimalString(myDecimal, IMPOSSIBLE_ACCURACY));
     }
 
     @Test

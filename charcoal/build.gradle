@@ -13,8 +13,6 @@ android {
     compileSdkVersion 26
     buildToolsVersion "26.0.2"
 
-    project.ext.set("DATABASE_NAME", "charcoal.realm")
-
     productFlavors.all {
             resValue "string", "DATABASE_NAME", "charcoal.realm"
             resValue "integer", "DATABASE_VERSION", "1"
