@@ -12,10 +12,7 @@ import org.fhir.ucum.Decimal;
 import org.fhir.ucum.UcumEssenceService;
 import org.fhir.ucum.UcumException;
 import org.hl7.fhir.dstu3.model.Observation;
-import org.hl7.fhir.dstu3.model.Quantity;
-import org.hl7.fhir.exceptions.FHIRException;
 
-import ca.uhn.fhir.model.dstu2.composite.QuantityDt;
 import charcoal.ehealthinnovation.org.charcoaltextview.annotation.Charcoal;
 import charcoal.ehealthinnovation.org.charcoaltextview.controller.EssenceController;
 import charcoal.ehealthinnovation.org.charcoaltextview.controller.PreferenceController;
@@ -163,8 +160,16 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
      * @param unit  UCUM unit {@link String} to use with value.
      */
     private void displayObservationValue(String value, String unit) {
+        String humanReadableUnitString;
         UcumEssenceService ucumService = EssenceController.getUcumService();
-        setText(String.format(getFormat(), value, ucumService.getCommonDisplay(unit)));
+
+        if ((ucumService.getModel() != null) && (ucumService.getModel().getUnit(unit) != null)) {
+            humanReadableUnitString = ucumService.getModel().getUnit(unit).getPrintSymbol();
+        } else {
+            humanReadableUnitString = ucumService.getCommonDisplay(unit);
+        }
+
+        setText(String.format(getFormat(), value, humanReadableUnitString));
     }
 
     /**
