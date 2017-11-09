@@ -110,12 +110,11 @@ public class EssenceController {
      */
     private static String getHumanReadableUnitString(@NonNull String unit) {
         String humanReadableUnitString;
-        UcumEssenceService ucumService = EssenceController.getUcumService();
 
-        if ((ucumService.getModel() != null) && (ucumService.getModel().getUnit(unit) != null)) {
-            humanReadableUnitString = ucumService.getModel().getUnit(unit).getPrintSymbol();
+        if ((getUcumService().getModel() != null) && (getUcumService().getModel().getUnit(unit) != null)) {
+            humanReadableUnitString = getUcumService().getModel().getUnit(unit).getPrintSymbol();
         } else {
-            humanReadableUnitString = ucumService.getCommonDisplay(unit);
+            humanReadableUnitString = getUcumService().getCommonDisplay(unit);
         }
 
         return humanReadableUnitString;
