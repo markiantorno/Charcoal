@@ -88,17 +88,17 @@ public class EssenceController {
     /**
      * Returns the UCUM code for the given code.
      *
-     * @param printString {@link String} of unit to get the code for.
+     * @param humanReadableString {@link String} of unit to get the code for.
      */
-    private static String getUnitCode(String printString) {
+    public static String getUnitCode(String humanReadableString) {
         if (getUcumService() == null) {
             Log.e(TAG, "getUnitPrintSymbol -> No UCUMEssenceService could be found. Returning blank unit String...");
             return "";
-        } else if (getUcumService().getModel().getUnit(printString) == null) {
-            Log.e(TAG, "getUnitPrintSymbol -> .getUnit(" + printString + ") returns null. Returning blank unit String...");
+        } else if (getUcumService().getModel().getUnit(humanReadableString) == null) {
+            Log.e(TAG, "getUnitPrintSymbol -> .getUnit(" + humanReadableString + ") returns null. Returning blank unit String...");
             return "";
         } else {
-            return getUcumService().getModel().getUnit(printString).getCode();
+            return getUcumService().getModel().getUnit(humanReadableString).getCode();
         }
     }
 
@@ -108,7 +108,7 @@ public class EssenceController {
      * @param unit UCUM notation unit.
      * @return {@link String} Human readable String for display.
      */
-    private static String getHumanReadableUnitString(@NonNull String unit) {
+    public static String getHumanReadableUnitString(@NonNull String unit) {
         String humanReadableUnitString;
 
         if ((getUcumService().getModel() != null) && (getUcumService().getModel().getUnit(unit) != null)) {
