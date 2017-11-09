@@ -2,6 +2,7 @@ package charcoal.ehealthinnovation.org.charcoaltextview.view;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
@@ -100,6 +101,7 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
      */
     public void setObservationDSTU3(@NonNull Observation obs) {
         mCurrentObservation = new ObservationPair(obs);
+        relight();
     }
 
     /**
@@ -119,7 +121,7 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
 
         if (charcoalTextViewInitialized()) {
             ConvertAndPopulateViewTask populateTask = new ConvertAndPopulateViewTask(this, getUnitString(), getAccuracy(), getFormat());
-            populateTask.execute(observationPair);
+            populateTask.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, observationPair);
         } else {
             Log.e(TAG, "CharcoalTextView not initialized. Displaying as plain number...");
             setText(String.valueOf(observationPair.getValue()));

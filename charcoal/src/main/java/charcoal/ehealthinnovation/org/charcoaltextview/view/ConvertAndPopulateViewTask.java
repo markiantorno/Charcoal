@@ -28,7 +28,7 @@ public class ConvertAndPopulateViewTask extends AsyncTask<ObservationPair, Void,
 
     public ConvertAndPopulateViewTask(@NonNull CharcoalTextView textView,
                                       @NonNull String desiredUnit,
-                                      @NonNull int desiredAccuracy,
+                                      int desiredAccuracy,
                                       @NonNull String format) {
         mWeakReference = new WeakReference<>(textView);
         mDesiredUnit = desiredUnit;
