@@ -103,16 +103,21 @@ public class EssenceController {
     }
 
     /**
-     * Returns the printable symbol for the given code.
+     * Takes the passed in unit and returns the human readable version of the String.
      *
-     * @param unitCode {@link String} code of unit to get the printable String for.
+     * @param unit UCUM notation unit.
+     * @return {@link String} Human readable String for display.
      */
-    private static String getUnitPrintSymbol(String unitCode) {
-        if (getUcumService() != null) {
-            return getUcumService().getModel().getUnit(unitCode).getPrintSymbol();
+    private static String getHumanReadableUnitString(@NonNull String unit) {
+        String humanReadableUnitString;
+        UcumEssenceService ucumService = EssenceController.getUcumService();
+
+        if ((ucumService.getModel() != null) && (ucumService.getModel().getUnit(unit) != null)) {
+            humanReadableUnitString = ucumService.getModel().getUnit(unit).getPrintSymbol();
         } else {
-            Log.e(TAG, "getUnitPrintSymbol -> No UCUMEssenceService could be found. Returning blank unit String...");
-            return "";
+            humanReadableUnitString = ucumService.getCommonDisplay(unit);
         }
+
+        return humanReadableUnitString;
     }
 }
