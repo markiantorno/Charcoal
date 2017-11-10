@@ -11,6 +11,7 @@ import java.lang.reflect.Field;
 import charcoal.ehealthinnovation.org.charcoaltextview.annotation.Essence;
 import charcoal.ehealthinnovation.org.charcoaltextview.annotation.Charcoal;
 import charcoal.ehealthinnovation.org.charcoaltextview.controller.EssenceController;
+import charcoal.ehealthinnovation.org.charcoaltextview.controller.PreferenceController;
 import charcoal.ehealthinnovation.org.charcoaltextview.view.CharcoalTextView;
 
 /**
@@ -112,10 +113,19 @@ public class CharcoalBinder {
                 try {
                     CharcoalTextView textView = (CharcoalTextView) field.get(target);
                     textView.setProperty(writer.property());
-                    textView.setUnitString(writer.defaultUnit());
-                    textView.setAccuracy(writer.accuracy());
+
+                    String defaultUnit = writer.defaultUnit();
+                    textView.setUnitString(defaultUnit);
+
+                    int defaultAccuracy = writer.accuracy();
+                    if ((defaultAccuracy == Charcoal.NO_ACCURACY_SET) && (PreferenceController.accuracySetForUnit(source.getContext(), defaultUnit))) {
+                        defaultAccuracy = PreferenceController.getAccuracyForUnit(source.getContext(), defaultUnit);
+                    } else if ((defaultAccuracy == Charcoal.NO_ACCURACY_SET) && (!PreferenceController.accuracySetForUnit(source.getContext(), defaultUnit))) {
+                        defaultAccuracy = 0;
+                    }
+                    textView.setAccuracy(defaultAccuracy);
+
                     textView.setFormat(writer.format());
-                    textView.relight();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -20,6 +20,8 @@ import charcoal.ehealthinnovation.org.charcoaltextview.view.CharcoalTextView;
 @Inherited
 public @interface Charcoal {
 
+    int NO_ACCURACY_SET = -1;
+
     /**
      * Property that this measurement represents, ie 'blood_glucose', 'weight', etc.
      * These codes are internal to your own application, and have no relation to UCUM fields or
@@ -36,7 +38,7 @@ public @interface Charcoal {
     /**
      * The decimal place accuracy of a number is the number of digits to the right of the decimal point.
      */
-    int accuracy() default 2;
+    int accuracy() default NO_ACCURACY_SET;
 
     /**
      * String format for displaying the {@link Observation} value, and unit.
