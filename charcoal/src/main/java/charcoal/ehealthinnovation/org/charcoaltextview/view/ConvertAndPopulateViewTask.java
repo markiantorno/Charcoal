@@ -16,7 +16,6 @@ import charcoal.ehealthinnovation.org.charcoaltextview.pojo.ObservationPair;
 /**
  * Created by miantorno on 2017-11-08.
  */
-
 public class ConvertAndPopulateViewTask extends AsyncTask<ObservationPair, Void, String> {
 
     public final static String TAG = ConvertAndPopulateViewTask.class.getSimpleName();

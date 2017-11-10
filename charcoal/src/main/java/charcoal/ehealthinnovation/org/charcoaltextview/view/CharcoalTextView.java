@@ -36,6 +36,7 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
 
     // Observation to display
     protected ObservationPair mCurrentObservation;
+    protected ConvertAndPopulateViewTask mLoadTask;
 
     // Constructors
 
@@ -120,8 +121,16 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
                 "unit: " + observationPair.getUnit());
 
         if (charcoalTextViewInitialized()) {
-            ConvertAndPopulateViewTask populateTask = new ConvertAndPopulateViewTask(this, getUnitString(), getAccuracy(), getFormat());
-            populateTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, observationPair);
+            /*
+             * We save the instance of the running load task, for android use cases like Recycler
+             * views, where the same view could get used over and over, or in cases where data may
+             * change rapidly and need to be reloaded.
+             */
+            if ((mLoadTask != null) && (!mLoadTask.isCancelled())) {
+                mLoadTask.cancel(true);
+            }
+            mLoadTask = new ConvertAndPopulateViewTask(this, getUnitString(), getAccuracy(), getFormat());
+            mLoadTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, observationPair);
         } else {
             Log.e(TAG, "CharcoalTextView not initialized. Displaying as plain number...");
             setText(String.valueOf(observationPair.getValue()));
@@ -145,6 +154,12 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
      * @return {@link Boolean#TRUE} if view has been initialized properly.
      */
     protected boolean charcoalTextViewInitialized() {
+        Log.d(TAG, "Initialization check -> " +
+                "\naccuracy :: " + mAccuracy +
+                "\naccuracy :: " + mFormat +
+                "\naccuracy :: " + mProperty +
+                "\naccuracy :: " + mUnitString
+        );
         return ((mAccuracy >= 0)
                 && (mFormat != null)
                 && (mProperty != null)
