@@ -121,7 +121,7 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
 
         if (charcoalTextViewInitialized()) {
             ConvertAndPopulateViewTask populateTask = new ConvertAndPopulateViewTask(this, getUnitString(), getAccuracy(), getFormat());
-            populateTask.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, observationPair);
+            populateTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, observationPair);
         } else {
             Log.e(TAG, "CharcoalTextView not initialized. Displaying as plain number...");
             setText(String.valueOf(observationPair.getValue()));

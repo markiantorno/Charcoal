@@ -77,10 +77,15 @@ public class ConvertAndPopulateViewTask extends AsyncTask<ObservationPair, Void,
 
     @Override
     protected void onPostExecute(String stringToDisplay) {
+        Log.d(TAG, "Populating view with string: " + stringToDisplay);
         if (mWeakReference != null && stringToDisplay != null) {
             final CharcoalTextView textView = mWeakReference.get();
             if (textView != null) {
+                Log.d(TAG, "Reference to view and String good, proceeding");
                 textView.setText(stringToDisplay);
+                Log.d(TAG, "Text set to " + stringToDisplay);
+            } else {
+                Log.d(TAG, "No reference to text view found...");
             }
         }
     }
@@ -95,11 +100,15 @@ public class ConvertAndPopulateViewTask extends AsyncTask<ObservationPair, Void,
         String humanReadableUnitString;
         UcumEssenceService ucumService = EssenceController.getUcumService();
 
+        Log.d(TAG, "Unit String to generate human readable for -> " + unit);
         if ((ucumService.getModel() != null) && (ucumService.getModel().getUnit(unit) != null)) {
+            Log.d(TAG, "Unit is base unit, this is easy");
             humanReadableUnitString = ucumService.getModel().getUnit(unit).getPrintSymbol();
         } else {
+            Log.d(TAG, "Unit is not base unit, defaulting to common display.");
             humanReadableUnitString = ucumService.getCommonDisplay(unit);
         }
+        Log.d(TAG, "Human readable String -> " + humanReadableUnitString);
         return humanReadableUnitString;
     }
 
