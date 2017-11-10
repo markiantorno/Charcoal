@@ -112,20 +112,31 @@ public class CharcoalBinder {
             if ((writer != null) && (field.getType().isAssignableFrom(CharcoalTextView.class))) {
                 try {
                     CharcoalTextView textView = (CharcoalTextView) field.get(target);
-                    textView.setProperty(writer.property());
+                    String property = writer.property();
+                    textView.setProperty(property);
 
                     String defaultUnit = writer.defaultUnit();
                     textView.setUnitString(defaultUnit);
 
                     int defaultAccuracy = writer.accuracy();
                     if ((defaultAccuracy == Charcoal.NO_ACCURACY_SET) && (PreferenceController.accuracySetForUnit(source.getContext(), defaultUnit))) {
+                        Log.d(TAG, "No default accuracy passed into annotation, however, accuracy for unit set it preferences -> " +
+                                PreferenceController.getAccuracyForUnit(source.getContext(), defaultUnit));
                         defaultAccuracy = PreferenceController.getAccuracyForUnit(source.getContext(), defaultUnit);
                     } else if ((defaultAccuracy == Charcoal.NO_ACCURACY_SET) && (!PreferenceController.accuracySetForUnit(source.getContext(), defaultUnit))) {
+                        Log.d(TAG, "No default accuracy passed into annotation, and no accuracy for unit set it preferences.");
                         defaultAccuracy = 0;
                     }
                     textView.setAccuracy(defaultAccuracy);
 
-                    textView.setFormat(writer.format());
+                    String format = writer.format();
+                    textView.setFormat(format);
+
+                    Log.d(TAG, "Charcoal text view initialized -> " +
+                            "\nproperty :: " + property +
+                            "\ndefault unit :: " + defaultUnit +
+                            "\ndefault accuracy :: " + defaultAccuracy +
+                            "\nformat :: " + format);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
