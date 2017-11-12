@@ -109,4 +109,21 @@ public class ObservationPair {
         return ((mValue != null) && (mUnit != null));
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ObservationPair that = (ObservationPair) o;
+
+        if (mValue != null ? !mValue.equals(that.mValue) : that.mValue != null) return false;
+        return mUnit != null ? mUnit.equals(that.mUnit) : that.mUnit == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mValue != null ? mValue.hashCode() : 0;
+        result = 31 * result + (mUnit != null ? mUnit.hashCode() : 0);
+        return result;
+    }
 }

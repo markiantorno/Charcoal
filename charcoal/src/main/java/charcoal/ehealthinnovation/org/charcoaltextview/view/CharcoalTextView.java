@@ -11,6 +11,8 @@ import android.util.Log;
 
 import org.hl7.fhir.dstu3.model.Observation;
 
+import java.util.UUID;
+
 import charcoal.ehealthinnovation.org.charcoaltextview.annotation.Charcoal;
 import charcoal.ehealthinnovation.org.charcoaltextview.controller.PreferenceController;
 import charcoal.ehealthinnovation.org.charcoaltextview.loader.ConvertUnitTask;
@@ -23,9 +25,15 @@ import charcoal.ehealthinnovation.org.charcoaltextview.pojo.ObservationPair;
  * <p>
  * Created by miantorno on 2017-10-13.
  */
-public class CharcoalTextView extends AppCompatTextView implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class CharcoalTextView extends AppCompatTextView { //implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     protected final static String TAG = CharcoalTextView.class.getSimpleName();
+
+    protected final String UUID = java.util.UUID.randomUUID().toString();
+
+    public String getUUID() {
+        return UUID;
+    }
 
     // Display formatting
     protected String mUnitString;
@@ -131,7 +139,13 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
 //            }
 //            mThread = new ConvertUnitThread(this, getUnitString(), getAccuracy(), getFormat(), observationPair);
 //            mThread.run();
-            CustomThreadPoolManager.getsInstance().addCallable(new ConvertUnitThread(this, getUnitString(), getAccuracy(), getFormat(), observationPair));
+            mThread = CustomThreadPoolManager.getsInstance().addUnitConversionTask(mThread,
+                    this,
+                    getUnitString(),
+                    getAccuracy(),
+                    getFormat(),
+                    observationPair);
+
         } else {
             Log.e(TAG, "CharcoalTextView not initialized. Displaying as plain number...");
             setText(String.valueOf(observationPair.getValue()));
@@ -167,23 +181,25 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
                 && (mUnitString != null));
     }
 
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals(getProperty()) || key.equals(mUnitString)) {
-            Log.d(TAG, "Property change triggered for property: " + key);
-            relight();
-        }
-    }
+//    @Override
+//    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+//        if (key.equals(getProperty()) || key.equals(mUnitString)) {
+//            Log.d(TAG, "Property change triggered for property: " + key);
+//            relight();
+//        }
+//    }
 
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        PreferenceController.registerListener(getContext(), this);
-    }
+//    @Override
+//    protected void onAttachedToWindow() {
+//        super.onAttachedToWindow();
+//        PreferenceController.registerListener(getContext(), this);
+//    }
+//
+//    @Override
+//    protected void onDetachedFromWindow() {
+//        super.onDetachedFromWindow();
+//        PreferenceController.unregisterListener(getContext(), this);
+//    }
 
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        PreferenceController.unregisterListener(getContext(), this);
-    }
+
 }

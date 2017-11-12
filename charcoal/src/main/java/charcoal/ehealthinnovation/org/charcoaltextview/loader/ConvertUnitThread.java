@@ -45,7 +45,7 @@ public class ConvertUnitThread implements Runnable {
         return mWeakReference;
     }
 
-    public ConvertUnitThread setmWeakReference(WeakReference<CharcoalTextView> mWeakReference) {
+    public ConvertUnitThread setWeakReference(WeakReference<CharcoalTextView> mWeakReference) {
         this.mWeakReference = mWeakReference;
         return this;
     }
@@ -54,7 +54,7 @@ public class ConvertUnitThread implements Runnable {
         return mDesiredUnit;
     }
 
-    public ConvertUnitThread setmDesiredUnit(String mDesiredUnit) {
+    public ConvertUnitThread setDesiredUnit(String mDesiredUnit) {
         this.mDesiredUnit = mDesiredUnit;
         return this;
     }
@@ -63,7 +63,7 @@ public class ConvertUnitThread implements Runnable {
         return mDesiredAccuracy;
     }
 
-    public ConvertUnitThread setmDesiredAccuracy(int mDesiredAccuracy) {
+    public ConvertUnitThread setDesiredAccuracy(int mDesiredAccuracy) {
         this.mDesiredAccuracy = mDesiredAccuracy;
         return this;
     }
@@ -72,7 +72,7 @@ public class ConvertUnitThread implements Runnable {
         return mFormat;
     }
 
-    public ConvertUnitThread setmFormat(String mFormat) {
+    public ConvertUnitThread setFormat(String mFormat) {
         this.mFormat = mFormat;
         return this;
     }
