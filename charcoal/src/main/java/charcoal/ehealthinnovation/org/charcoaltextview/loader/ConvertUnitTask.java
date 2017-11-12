@@ -1,4 +1,4 @@
-package charcoal.ehealthinnovation.org.charcoaltextview.view;
+package charcoal.ehealthinnovation.org.charcoaltextview.loader;
 
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -12,27 +12,29 @@ import java.lang.ref.WeakReference;
 
 import charcoal.ehealthinnovation.org.charcoaltextview.controller.EssenceController;
 import charcoal.ehealthinnovation.org.charcoaltextview.pojo.ObservationPair;
+import charcoal.ehealthinnovation.org.charcoaltextview.view.CharcoalTextView;
 
 /**
  * Created by miantorno on 2017-11-08.
  */
-public class ConvertAndPopulateViewTask extends AsyncTask<ObservationPair, Void, String> {
+public class ConvertUnitTask extends AsyncTask<ObservationPair, Void, String> {
 
-    public final static String TAG = ConvertAndPopulateViewTask.class.getSimpleName();
+    public final static String TAG = ConvertUnitTask.class.getSimpleName();
 
     protected WeakReference<CharcoalTextView> mWeakReference;
     protected String mDesiredUnit;
     protected int mDesiredAccuracy;
     protected String mFormat;
 
-    public ConvertAndPopulateViewTask(@NonNull CharcoalTextView textView,
-                                      @NonNull String desiredUnit,
-                                      int desiredAccuracy,
-                                      @NonNull String format) {
+    public ConvertUnitTask(@NonNull CharcoalTextView textView,
+                           @NonNull String desiredUnit,
+                           int desiredAccuracy,
+                           @NonNull String format) {
         mWeakReference = new WeakReference<>(textView);
         mDesiredUnit = desiredUnit;
         mDesiredAccuracy = desiredAccuracy;
         mFormat = format;
+        textView.setText("");
     }
 
     @Override

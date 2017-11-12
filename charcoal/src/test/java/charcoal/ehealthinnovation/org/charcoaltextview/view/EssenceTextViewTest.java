@@ -5,14 +5,14 @@ import android.app.Activity;
 import junit.framework.Assert;
 
 import org.fhir.ucum.Decimal;
-import org.hl7.fhir.dstu3.model.Observation;
-import org.hl7.fhir.dstu3.model.Quantity;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+
+import charcoal.ehealthinnovation.org.charcoaltextview.loader.ConvertUnitTask;
 
 /**
  * Created by miantorno on 2017-10-19.
@@ -44,10 +44,10 @@ public class EssenceTextViewTest {
 
     @Test
     public void testAsPrecisionDecimalString() throws Exception {
-        Assert.assertEquals(NO_DECIMAL, ConvertAndPopulateViewTask.asPrecisionDecimalString(new Decimal(NO_DECIMAL), DESIRED_ACCURACY));
-        Assert.assertEquals(THAT_IS_BETTTER, ConvertAndPopulateViewTask.asPrecisionDecimalString(myDecimal, DESIRED_ACCURACY));
-        Assert.assertEquals(WAY_TOO_ACCURATE, ConvertAndPopulateViewTask.asPrecisionDecimalString(myDecimal, WAY_TOO_MUCH_ACCURACY));
-        Assert.assertEquals(WAY_TOO_ACCURATE, ConvertAndPopulateViewTask.asPrecisionDecimalString(myDecimal, IMPOSSIBLE_ACCURACY));
+        Assert.assertEquals(NO_DECIMAL, ConvertUnitTask.asPrecisionDecimalString(new Decimal(NO_DECIMAL), DESIRED_ACCURACY));
+        Assert.assertEquals(THAT_IS_BETTTER, ConvertUnitTask.asPrecisionDecimalString(myDecimal, DESIRED_ACCURACY));
+        Assert.assertEquals(WAY_TOO_ACCURATE, ConvertUnitTask.asPrecisionDecimalString(myDecimal, WAY_TOO_MUCH_ACCURACY));
+        Assert.assertEquals(WAY_TOO_ACCURATE, ConvertUnitTask.asPrecisionDecimalString(myDecimal, IMPOSSIBLE_ACCURACY));
     }
 
     @Test

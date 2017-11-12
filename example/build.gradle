@@ -21,8 +21,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     lintOptions {
         abortOnError false
@@ -58,7 +58,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile project(':charcoal')
+    implementation project(':charcoal')
 
     implementation 'ca.uhn.hapi.fhir:hapi-fhir-structures-dstu3:3.1.0-SNAPSHOT'
     implementation 'ca.uhn.hapi.fhir:hapi-fhir-structures-dstu2:3.1.0-SNAPSHOT'
