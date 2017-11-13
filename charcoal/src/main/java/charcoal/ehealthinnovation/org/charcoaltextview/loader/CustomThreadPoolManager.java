@@ -23,8 +23,7 @@ public class CustomThreadPoolManager {
     public static final String TAG = CustomThreadPoolManager.class.getSimpleName();
 
     private static CustomThreadPoolManager sInstance = null;
-    private static final int DEFAULT_THREAD_POOL_SIZE = 4;
-    private static int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
+    private static int NUMBER_OF_CORES = Math.max(1, Runtime.getRuntime().availableProcessors() - 1);
     private static final int KEEP_ALIVE_TIME = 10;
     private static final TimeUnit KEEP_ALIVE_TIME_UNIT;
 

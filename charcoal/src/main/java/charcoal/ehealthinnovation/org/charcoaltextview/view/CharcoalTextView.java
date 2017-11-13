@@ -129,16 +129,6 @@ public class CharcoalTextView extends AppCompatTextView { //implements SharedPre
                 "unit: " + observationPair.getUnit());
 
         if (charcoalTextViewInitialized()) {
-//            /*
-//             * We save the instance of the running load task, for android use cases like Recycler
-//             * views, where the same view could get used over and over, or in cases where data may
-//             * change rapidly and need to be reloaded.
-//             */
-//            if (mThread != null) {
-//                mThread.stop();
-//            }
-//            mThread = new ConvertUnitThread(this, getUnitString(), getAccuracy(), getFormat(), observationPair);
-//            mThread.run();
             mThread = CustomThreadPoolManager.getsInstance().addUnitConversionTask(mThread,
                     this,
                     getUnitString(),
