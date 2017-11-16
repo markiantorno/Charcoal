@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
         mCharcoalViewMGDL.setObservationDSTU3(generateBloodGlucoseReadingMgdl());
 
         mUnitOnlyCharcoalViewMMOL = findViewById(R.id.unit_only_field_mgdl);
-        //TODO there will eventually be a better way to do this...
         mUnitOnlyCharcoalViewMMOL.setObservationDSTU3(generateBloodGlucoseReadingMmol());
 
         mSwitch = findViewById(R.id.pref_switch);

@@ -136,7 +136,7 @@ public class CustomThreadPoolManager {
         private static int sTag = 1;
 
         @Override
-        public Thread newThread(Runnable runnable) {
+        public Thread newThread(@NonNull Runnable runnable) {
             Thread thread = new Thread(runnable);
             thread.setName("CustomThread" + sTag);
             sTag++;
