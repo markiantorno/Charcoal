@@ -34,13 +34,17 @@ public class BaseExample extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    @Charcoal(property = "blood_glucose", defaultUnit = "mg/dL")
+    public static final String BLOOD_GLUCOSE_PROPERTY = "blood_glucose";
+    public static final String UNIT_MMOLL = "m[mol]/L";
+    public static final String UNIT_MGDL = "mg/dL";
+
+    @Charcoal(property = BLOOD_GLUCOSE_PROPERTY, defaultUnit = UNIT_MGDL)
     CharcoalTextView mCharcoalViewMGDL;
 
-    @Charcoal(property = "blood_glucose", defaultUnit = "m[mol]/L")
+    @Charcoal(property = BLOOD_GLUCOSE_PROPERTY, defaultUnit = UNIT_MMOLL)
     CharcoalTextView mCharcoalViewMMOL;
 
-    @Charcoal(property = "blood_glucose", defaultUnit = "mg/dL", format = "%2$s")
+    @Charcoal(property = BLOOD_GLUCOSE_PROPERTY, defaultUnit = UNIT_MGDL, format = "%2$s")
     CharcoalTextView mUnitOnlyCharcoalViewMMOL;
 
     SwitchCompat mSwitch;
@@ -85,26 +89,26 @@ public class BaseExample extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.single_unit_test, container, false);
-
         mCharcoalViewMMOL = view.findViewById(R.id.unit_field_mmoll);
-        mCharcoalViewMMOL.setObservationDSTU3(generateBloodGlucoseReadingMmol());
-
         mCharcoalViewMGDL = view.findViewById(R.id.unit_field_mgdl);
-        mCharcoalViewMGDL.setObservationDSTU3(generateBloodGlucoseReadingMgdl());
-
         mUnitOnlyCharcoalViewMMOL = view.findViewById(R.id.unit_only_field_mgdl);
+
+        CharcoalBinder.burn(this, view);
+
+        PreferenceController.setUnitForProperty(getActivity(),BLOOD_GLUCOSE_PROPERTY, UNIT_MMOLL);
+        PreferenceController.setAccuracyForUnit(getActivity(), UNIT_MMOLL, 1);
+        PreferenceController.setAccuracyForUnit(getActivity(), UNIT_MGDL, 0);
+
+        mCharcoalViewMMOL.setObservationDSTU3(generateBloodGlucoseReadingMmol());
+        mCharcoalViewMGDL.setObservationDSTU3(generateBloodGlucoseReadingMgdl());
         mUnitOnlyCharcoalViewMMOL.setObservationDSTU3(generateBloodGlucoseReadingMmol());
 
         mSwitch = view.findViewById(R.id.pref_switch);
         mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                PreferenceController.setUnitForProperty(getContext(), "blood_glucose", isChecked ? "mg/dL" : "m[mol]/L");
+                PreferenceController.setUnitForProperty(getContext(), BLOOD_GLUCOSE_PROPERTY, isChecked ? UNIT_MGDL : UNIT_MMOLL);
             }
         });
-
-        PreferenceController.setUnitForProperty(getContext(),"blood_glucose", "m[mol]/L");
-
-        CharcoalBinder.burn(this, view);
 
         return view;
     }
