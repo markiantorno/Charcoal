@@ -62,7 +62,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         public final View mView;
 
         @Charcoal(property = "blood_glucose", defaultUnit = "mg/dL", accuracy = 0, format = "%1$s %2$s")
-        public final CharcoalTextView mCharcoalView;`
+        public final CharcoalTextView mCharcoalView;
 
         public Observation mItem;
 

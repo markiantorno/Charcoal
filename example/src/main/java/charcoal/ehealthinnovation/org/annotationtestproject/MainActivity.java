@@ -1,76 +1,97 @@
 package charcoal.ehealthinnovation.org.annotationtestproject;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.SwitchCompat;
-import android.widget.CompoundButton;
+import android.support.v4.app.FragmentTransaction;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
-import org.hl7.fhir.dstu3.model.Observation;
-import org.hl7.fhir.dstu3.model.Quantity;
-
+import charcoal.ehealthinnovation.org.annotationtestproject.basetest.BaseExample;
+import charcoal.ehealthinnovation.org.annotationtestproject.listtest.ItemFragment;
 import charcoal.ehealthinnovation.org.charcoaltextview.CharcoalBinder;
 import charcoal.ehealthinnovation.org.charcoaltextview.annotation.Essence;
-import charcoal.ehealthinnovation.org.charcoaltextview.annotation.Charcoal;
-import charcoal.ehealthinnovation.org.charcoaltextview.controller.PreferenceController;
-import charcoal.ehealthinnovation.org.charcoaltextview.view.CharcoalTextView;
-
 @Essence(asset = "essence.xml")
-public class MainActivity extends AppCompatActivity {
-
-    @Charcoal(property = "blood_glucose", defaultUnit = "mg/dL")
-    CharcoalTextView mCharcoalViewMGDL;
-
-    @Charcoal(property = "blood_glucose", defaultUnit = "m[mol]/L")
-    CharcoalTextView mCharcoalViewMMOL;
-
-    @Charcoal(property = "blood_glucose", defaultUnit = "mg/dL", format = "%2$s")
-    CharcoalTextView mUnitOnlyCharcoalViewMMOL;
-
-    SwitchCompat mSwitch;
+public class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        mCharcoalViewMMOL = findViewById(R.id.unit_field_mmoll);
-        mCharcoalViewMMOL.setObservationDSTU3(generateBloodGlucoseReadingMmol());
-
-        mCharcoalViewMGDL = findViewById(R.id.unit_field_mgdl);
-        mCharcoalViewMGDL.setObservationDSTU3(generateBloodGlucoseReadingMgdl());
-
-        mUnitOnlyCharcoalViewMMOL = findViewById(R.id.unit_only_field_mgdl);
-        mUnitOnlyCharcoalViewMMOL.setObservationDSTU3(generateBloodGlucoseReadingMmol());
-
-        mSwitch = findViewById(R.id.pref_switch);
-        mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                PreferenceController.setUnitForProperty(getApplicationContext(), "blood_glucose", isChecked ? "mg/dL" : "m[mol]/L");
-            }
-        });
-
-        PreferenceController.setUnitForProperty(this,"blood_glucose", "m[mol]/L");
 
         CharcoalBinder.burn(this);
+                setContentView(R.layout.activity_main2);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
-    public Observation generateBloodGlucoseReadingMmol() {
-        Quantity quantity = new Quantity().setUnit("m[mol]/l")
-                .setValue(3.9);
-
-        Observation observation = new Observation()
-                .setValue(quantity);
-
-        return observation;
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
-    public Observation generateBloodGlucoseReadingMgdl() {
-        Quantity quantity = new Quantity().setUnit("mg/dL")
-                .setValue(70);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main2, menu);
+        return true;
+    }
 
-        Observation observation = new Observation()
-                .setValue(quantity);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
-        return observation;
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.single_test) {
+            BaseExample newFragment = BaseExample.newInstance(null, null);
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.container_view, newFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        } else if (id == R.id.multi_test) {
+            ItemFragment newFragment = ItemFragment.newInstance(1);
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.container_view, newFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }
