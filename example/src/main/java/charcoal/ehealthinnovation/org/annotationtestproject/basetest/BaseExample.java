@@ -14,6 +14,7 @@ import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Quantity;
 
 import charcoal.ehealthinnovation.org.annotationtestproject.R;
+import charcoal.ehealthinnovation.org.charcoaltextview.CharcoalBinder;
 import charcoal.ehealthinnovation.org.charcoaltextview.annotation.Charcoal;
 import charcoal.ehealthinnovation.org.charcoaltextview.controller.PreferenceController;
 import charcoal.ehealthinnovation.org.charcoaltextview.view.CharcoalTextView;
@@ -102,6 +103,9 @@ public class BaseExample extends Fragment {
         });
 
         PreferenceController.setUnitForProperty(getContext(),"blood_glucose", "m[mol]/L");
+
+        CharcoalBinder.burn(this, view);
+
         return view;
     }
 

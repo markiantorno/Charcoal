@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context="charcoal.ehealthinnovation.org.annotationtestproject.SingleUnitConversion">
+    tools:context="charcoal.ehealthinnovation.org.annotationtestproject.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

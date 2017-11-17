@@ -25,7 +25,7 @@ import charcoal.ehealthinnovation.org.charcoaltextview.pojo.ObservationPair;
  * <p>
  * Created by miantorno on 2017-10-13.
  */
-public class CharcoalTextView extends AppCompatTextView { //implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class CharcoalTextView extends AppCompatTextView implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     protected final static String TAG = CharcoalTextView.class.getSimpleName();
 
@@ -171,25 +171,23 @@ public class CharcoalTextView extends AppCompatTextView { //implements SharedPre
                 && (mUnitString != null));
     }
 
-//    @Override
-//    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-//        if (key.equals(getProperty()) || key.equals(mUnitString)) {
-//            Log.d(TAG, "Property change triggered for property: " + key);
-//            relight();
-//        }
-//    }
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(getProperty()) || key.equals(mUnitString)) {
+            Log.d(TAG, "Property change triggered for property: " + key);
+            relight();
+        }
+    }
 
-//    @Override
-//    protected void onAttachedToWindow() {
-//        super.onAttachedToWindow();
-//        PreferenceController.registerListener(getContext(), this);
-//    }
-//
-//    @Override
-//    protected void onDetachedFromWindow() {
-//        super.onDetachedFromWindow();
-//        PreferenceController.unregisterListener(getContext(), this);
-//    }
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        PreferenceController.registerListener(getContext(), this);
+    }
 
-
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        PreferenceController.unregisterListener(getContext(), this);
+    }
 }
