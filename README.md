@@ -29,7 +29,7 @@ Then in your local build.gradle, add the following dependency:
 ```
 dependencies {
   ...
-  implementation 'com.github.markiantorno:charcoal:v0.0.1-rc10'
+  implementation 'com.github.markiantorno:charcoal:v1.0.0'
 }
 ```
 
