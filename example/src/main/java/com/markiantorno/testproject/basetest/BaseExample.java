@@ -10,14 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
-import org.hl7.fhir.dstu3.model.Observation;
-import org.hl7.fhir.dstu3.model.Quantity;
-
 import com.markiantorno.charcoal.CharcoalBinder;
 import com.markiantorno.charcoal.annotation.Charcoal;
 import com.markiantorno.charcoal.controller.PreferenceController;
 import com.markiantorno.charcoal.view.CharcoalTextView;
 import com.markiantorno.testproject.R;
+
+import org.hl7.fhir.dstu3.model.Observation;
+import org.hl7.fhir.dstu3.model.Quantity;
 
 
 /**
@@ -34,20 +34,20 @@ public class BaseExample extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    public static final String BLOOD_GLUCOSE_PROPERTY = "blood_glucose";
-    public static final String UNIT_MMOLL = "m[mol]/L";
-    public static final String UNIT_MGDL = "mg/dL";
+    private static final String BLOOD_GLUCOSE_PROPERTY = "blood_glucose";
+    private static final String UNIT_MMOLL = "m[mol]/L";
+    private static final String UNIT_MGDL = "mg/dL";
 
     @Charcoal(property = BLOOD_GLUCOSE_PROPERTY, defaultUnit = UNIT_MGDL)
-    CharcoalTextView mCharcoalViewMGDL;
+    protected CharcoalTextView mCharcoalViewMGDL;
 
     @Charcoal(property = BLOOD_GLUCOSE_PROPERTY, defaultUnit = UNIT_MMOLL)
-    CharcoalTextView mCharcoalViewMMOL;
+    protected CharcoalTextView mCharcoalViewMMOL;
 
     @Charcoal(property = BLOOD_GLUCOSE_PROPERTY, defaultUnit = UNIT_MGDL, format = "%2$s")
-    CharcoalTextView mUnitOnlyCharcoalViewMMOL;
+    protected CharcoalTextView mUnitOnlyCharcoalViewMMOL;
 
-    SwitchCompat mSwitch;
+    private SwitchCompat mSwitch;
 
     private String mParam1;
     private String mParam2;

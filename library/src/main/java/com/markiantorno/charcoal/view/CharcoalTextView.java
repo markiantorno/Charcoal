@@ -8,14 +8,13 @@ import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.util.Log;
 
-import org.hl7.fhir.dstu3.model.Observation;
-
-
 import com.markiantorno.charcoal.annotation.Charcoal;
 import com.markiantorno.charcoal.controller.PreferenceController;
 import com.markiantorno.charcoal.loader.ConvertUnitThread;
 import com.markiantorno.charcoal.loader.CustomThreadPoolManager;
 import com.markiantorno.charcoal.pojo.ObservationPair;
+
+import org.hl7.fhir.dstu3.model.Observation;
 
 /**
  * Extended {@link android.widget.TextView} used to display {@link Observation} with the correct units.
@@ -158,9 +157,9 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
     protected boolean charcoalTextViewInitialized() {
         Log.d(TAG, "Initialization check -> " +
                 "\naccuracy :: " + mAccuracy +
-                "\naccuracy :: " + mFormat +
-                "\naccuracy :: " + mProperty +
-                "\naccuracy :: " + mUnitString
+                "\nformat :: " + mFormat +
+                "\nproperty :: " + mProperty +
+                "\nunit string :: " + mUnitString
         );
         return ((mAccuracy >= 0)
                 && (mFormat != null)
