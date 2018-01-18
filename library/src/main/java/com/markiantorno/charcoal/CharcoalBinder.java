@@ -6,13 +6,16 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 
-import java.lang.reflect.Field;
-
-import com.markiantorno.charcoal.annotation.Essence;
 import com.markiantorno.charcoal.annotation.Charcoal;
+import com.markiantorno.charcoal.annotation.Essence;
 import com.markiantorno.charcoal.controller.EssenceController;
 import com.markiantorno.charcoal.controller.PreferenceController;
 import com.markiantorno.charcoal.view.CharcoalTextView;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * This class processes the values set in the annotaions {@link Essence} and {@link Charcoal}.
@@ -105,9 +108,10 @@ public class CharcoalBinder {
             Log.i(TAG, "Binding UCUM definitions file from asset file -> " + assetFileName);
         }
 
-        Field[] fields = target.getClass().getDeclaredFields();
+        List<Field> fields = getAllFields(target.getClass());
 
         for (Field field : fields) {
+            field.setAccessible(true); // To enable access to private/protected fields
             Charcoal writer = field.getAnnotation(Charcoal.class);
             if ((writer != null) && (field.getType().isAssignableFrom(CharcoalTextView.class))) {
                 try {
@@ -142,5 +146,19 @@ public class CharcoalBinder {
                 }
             }
         }
+    }
+
+    /**
+     * Get all fields of a given class, even of the super class
+     *
+     * @param classToGet Class to get the fields from
+     * @return A {@link List} of {@link Field}s
+     */
+    public static List<Field> getAllFields(Class<?> classToGet) {
+        List<Field> fields = new ArrayList<>();
+        for (Class<?> c = classToGet; c != null; c = c.getSuperclass()) {
+            fields.addAll(Arrays.asList(c.getDeclaredFields()));
+        }
+        return fields;
     }
 }

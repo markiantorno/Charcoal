@@ -9,6 +9,10 @@
             android:icon="@drawable/ic_filter_1_black_24dp"
             android:title="Test Single Unit Conversion" />
         <item
+            android:id="@+id/sub_class_test"
+            android:icon="@drawable/ic_filter_1_black_24dp"
+            android:title="Test Sub/Super Class Unit Conversion" />
+        <item
             android:id="@+id/multi_test"
             android:icon="@drawable/ic_filter_9_plus_black_24dp"
             android:title="Stress Test Conversion" />

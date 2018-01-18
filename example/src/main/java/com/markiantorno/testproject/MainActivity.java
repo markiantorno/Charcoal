@@ -1,8 +1,9 @@
 package com.markiantorno.testproject;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -11,10 +12,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.markiantorno.testproject.basetest.BaseExample;
-import com.markiantorno.testproject.listtest.ItemFragment;
 import com.markiantorno.charcoal.CharcoalBinder;
 import com.markiantorno.charcoal.annotation.Essence;
+import com.markiantorno.testproject.basetest.BaseExample;
+import com.markiantorno.testproject.listtest.ItemFragment;
+import com.markiantorno.testproject.subsuperclasstest.SubActivityExample;
 
 
 @Essence(asset = "essence.xml")
@@ -84,7 +86,10 @@ public class MainActivity extends AppCompatActivity
             transaction.replace(R.id.container_view, newFragment);
             transaction.addToBackStack(null);
             transaction.commit();
-        } else if (id == R.id.multi_test) {
+        } else if (id == R.id.sub_class_test) {
+            Intent intent = new Intent(this, SubActivityExample.class);
+            startActivity(intent);
+        }  else if (id == R.id.multi_test) {
             ItemFragment newFragment = ItemFragment.newInstance(1);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.container_view, newFragment);
