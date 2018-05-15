@@ -45,13 +45,13 @@ public class ConvertUnitTask extends AsyncTask<ObservationPair, Void, String> {
 
         if ((myPair != null) && (ucumService != null)) {
 
-            if (!myPair.getUnit().equals(mDesiredUnit)) {
+            if (!myPair.getUnitCode().equals(mDesiredUnit)) {
                 Log.d(TAG, "Unit for property does not equal current unit. Need to convert.");
                 try {
                     Log.d(TAG, "Value passed in -> " + myPair.getValue());
                     Decimal sourceValue = new Decimal(String.valueOf(myPair.getValue()));
                     Decimal convertedValue = ucumService.convert(sourceValue,
-                            myPair.getUnit(),
+                            myPair.getUnitCode(),
                             mDesiredUnit);
 
                     Log.d(TAG, "Adjusted value for new unit -> " + convertedValue);

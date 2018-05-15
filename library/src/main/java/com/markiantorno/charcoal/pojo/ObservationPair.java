@@ -20,7 +20,7 @@ public class ObservationPair {
     public static final String TAG = ObservationPair.class.getSimpleName();
 
     private Double mValue;
-    private String mUnit;
+    private String mUnitCode;
 
     public ObservationPair(@NonNull Observation observationDTSU2) {
         setObservation(observationDTSU2);
@@ -37,10 +37,10 @@ public class ObservationPair {
                 mValue = null;
                 Log.e(TAG, "No value set for observation with id :: " + observationDSTU2.getId());
             }
-            if (quatityDt.getUnit() != null) {
-                mUnit = quatityDt.getUnit();
+            if (quatityDt.getCode() != null) {
+                mUnitCode = quatityDt.getCode();
             } else {
-                mUnit = null;
+                mUnitCode = null;
                 Log.e(TAG, "No unit set for observation with id :: " + observationDSTU2.getId());
             }
         } else {
@@ -63,10 +63,10 @@ public class ObservationPair {
                 mValue = null;
                 Log.e(TAG, "No value set for observation with id :: " + observationDTSU3.getId());
             }
-            if (quatityDt.getUnit() != null) {
-                mUnit = quatityDt.getUnit();
+            if (quatityDt.getCode() != null) {
+                mUnitCode = quatityDt.getCode();
             } else {
-                mUnit = null;
+                mUnitCode = null;
                 Log.e(TAG, "No unit set for observation with id :: " + observationDTSU3.getId());
             }
         } else {
@@ -78,8 +78,8 @@ public class ObservationPair {
         return mValue;
     }
 
-    public String getUnit() {
-        return mUnit;
+    public String getUnitCode() {
+        return mUnitCode;
     }
 
     /**
@@ -102,11 +102,11 @@ public class ObservationPair {
 
     /**
      * Returns true if both value and unit are set.
-     * @return {@link Boolean#TRUE} if both {@link ObservationPair#mValue} and {@link ObservationPair#mUnit}
+     * @return {@link Boolean#TRUE} if both {@link ObservationPair#mValue} and {@link ObservationPair#mUnitCode}
      * conatain non null values.
      */
     public boolean isValid() {
-        return ((mValue != null) && (mUnit != null));
+        return ((mValue != null) && (mUnitCode != null));
     }
 
     @Override
@@ -117,13 +117,13 @@ public class ObservationPair {
         ObservationPair that = (ObservationPair) o;
 
         if (mValue != null ? !mValue.equals(that.mValue) : that.mValue != null) return false;
-        return mUnit != null ? mUnit.equals(that.mUnit) : that.mUnit == null;
+        return mUnitCode != null ? mUnitCode.equals(that.mUnitCode) : that.mUnitCode == null;
     }
 
     @Override
     public int hashCode() {
         int result = mValue != null ? mValue.hashCode() : 0;
-        result = 31 * result + (mUnit != null ? mUnit.hashCode() : 0);
+        result = 31 * result + (mUnitCode != null ? mUnitCode.hashCode() : 0);
         return result;
     }
 }

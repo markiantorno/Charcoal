@@ -69,7 +69,7 @@ public class ItemFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
 
         for (int i = 0; i <= 1000; i++) {
-            Quantity quantity = new Quantity().setUnit("m[mol]/l")
+            Quantity quantity = new Quantity().setCode("m[mol]/l")
                     .setValue(genRandomMMOLValue());
             Observation obs = new Observation().setValue(quantity);
             mObservations.add(obs);

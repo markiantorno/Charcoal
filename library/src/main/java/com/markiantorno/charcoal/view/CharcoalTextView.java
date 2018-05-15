@@ -122,7 +122,7 @@ public class CharcoalTextView extends AppCompatTextView implements SharedPrefere
     private void setAndFormatText(@NonNull ObservationPair observationPair) {
 
         Log.d(TAG, "Attempting to display value: " + observationPair.getValue() + ", with corresponding " +
-                "unit: " + observationPair.getUnit());
+                "unit: " + observationPair.getUnitCode());
 
         if (charcoalTextViewInitialized()) {
             mThread = CustomThreadPoolManager.getsInstance().addUnitConversionTask(mThread,
