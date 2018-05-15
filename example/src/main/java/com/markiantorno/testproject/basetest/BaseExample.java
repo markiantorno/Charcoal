@@ -147,7 +147,7 @@ public class BaseExample extends Fragment {
     }
 
     public Observation generateBloodGlucoseReadingMmol() {
-        Quantity quantity = new Quantity().setUnit("m[mol]/l")
+        Quantity quantity = new Quantity().setCode("m[mol]/l")
                 .setValue(3.9);
 
         Observation observation = new Observation()
@@ -157,7 +157,7 @@ public class BaseExample extends Fragment {
     }
 
     public Observation generateBloodGlucoseReadingMgdl() {
-        Quantity quantity = new Quantity().setUnit("mg/dL")
+        Quantity quantity = new Quantity().setCode("mg/dL")
                 .setValue(70);
 
         Observation observation = new Observation()

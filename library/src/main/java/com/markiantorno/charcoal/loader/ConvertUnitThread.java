@@ -93,13 +93,13 @@ public class ConvertUnitThread implements Runnable {
 
         if ((observationPair != null) && (ucumService != null)) {
 
-            if (!observationPair.getUnit().equals(mDesiredUnit)) {
+            if (!observationPair.getUnitCode().equals(mDesiredUnit)) {
                 Log.d(TAG, "Unit for property does not equal current unit. Need to convert.");
                 try {
                     Log.d(TAG, "Value passed in -> " + observationPair.getValue());
                     Decimal sourceValue = new Decimal(String.valueOf(observationPair.getValue()));
                     Decimal convertedValue = ucumService.convert(sourceValue,
-                            observationPair.getUnit(),
+                            observationPair.getUnitCode(),
                             mDesiredUnit);
 
                     Log.d(TAG, "Adjusted value for new unit -> " + convertedValue);

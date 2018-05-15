@@ -95,7 +95,7 @@ public class EssenceController {
             Log.e(TAG, "getUnitPrintSymbol -> No UCUMEssenceService could be found. Returning blank unit String...");
             return "";
         } else if (getUcumService().getModel().getUnit(humanReadableString) == null) {
-            Log.e(TAG, "getUnitPrintSymbol -> .getUnit(" + humanReadableString + ") returns null. Returning blank unit String...");
+            Log.e(TAG, "getUnitPrintSymbol -> .getUnitCode(" + humanReadableString + ") returns null. Returning blank unit String...");
             return "";
         } else {
             return getUcumService().getModel().getUnit(humanReadableString).getCode();
